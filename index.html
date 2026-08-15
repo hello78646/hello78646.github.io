@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人自我介绍网站</title>
-    <!-- 粒子动效 -->
+    <title>倪毅豪｜个人自我介绍网站</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -48,7 +48,6 @@
         html {
             scroll-behavior: smooth;
         }
-        /* 粒子背景底层，不遮挡内容 */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -56,57 +55,314 @@
             top: 0;
             left: 0;
             z-index: -1;
-            background-color: #ffffff;
         }
     </style>
 </head>
-<body class="bg-white text-primary font-sans overflow-x-hidden">
-    <!-- 粒子背景容器 -->
+<body class="bg-white dark:bg-slate-900 text-primary dark:text-slate-100 font-sans overflow-x-hidden transition-colors duration-500">
     <div id="particles-js"></div>
 
-    <!-- 导航栏（完整滚动变色毛玻璃效果） -->
     <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4">
         <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-            <div class="text-xl font-bold">个人自我介绍</div>
-            <div class="hidden md:flex gap-8">
-                <a href=" " class="hover:text-accent transition-colors">首页</a >
-                <a href="#feature" class="hover:text-accent transition-colors">个人特色</a >
-                <a href="#interest" class="hover:text-accent transition-colors">深耕方向</a >
-                <a href="#experience" class="hover:text-accent transition-colors">成长历程</a >
-                <a href="#education" class="hover:text-accent transition-colors">教育背景</a >
-                <a href="#practice" class="hover:text-accent transition-colors">项目&实践经历</a >
-                <a href="#skill" class="hover:text-accent transition-colors">专业技能&证书</a >
-                <a href="#hobby" class="hover:text-accent transition-colors">兴趣爱好</a >
-                <a href="#contact" class="hover:text-accent transition-colors">联系方式</a >
+            <div class="text-xl font-bold">倪毅豪 · 个人自我介绍</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="hover:text-accent transition-colors">首页</a>
+                <a href="#feature" class="hover:text-accent transition-colors">个人特色</a>
+                <a href="#interest" class="hover:text-accent transition-colors">深耕方向</a>
+                <a href="#experience" class="hover:text-accent transition-colors">成长历程</a>
+                <a href="#education" class="hover:text-accent transition-colors">教育背景</a>
+                <a href="#practice" class="hover:text-accent transition-colors">项目&实践经历</a>
+                <a href="#skill" class="hover:text-accent transition-colors">专业技能&证书</a>
+                <a href="#hobby" class="hover:text-accent transition-colors">兴趣爱好</a>
+                <a href="#contact" class="hover:text-accent transition-colors">联系方式</a>
+                <button id="themeToggle" class="text-xl">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
             </div>
-            <button class="md:hidden text-xl">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <div class="md:hidden flex items-center gap-4">
+                <button id="themeToggleMobile" class="text-xl">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+                <button id="menuBtn" class="text-xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 space-y-3 bg-white/95 dark:bg-slate-900/95 shadow-lg">
+            <a href="#home" class="block py-2 hover:text-accent">首页</a>
+            <a href="#feature" class="block py-2 hover:text-accent">个人特色</a>
+            <a href="#interest" class="block py-2 hover:text-accent">深耕方向</a>
+            <a href="#experience" class="block py-2 hover:text-accent">成长历程</a>
+            <a href="#education" class="block py-2 hover:text-accent">教育背景</a>
+            <a href="#practice" class="block py-2 hover:text-accent">项目&实践经历</a>
+            <a href="#skill" class="block py-2 hover:text-accent">专业技能&证书</a>
+            <a href="#hobby" class="block py-2 hover:text-accent">兴趣爱好</a>
+            <a href="#contact" class="block py-2 hover:text-accent">联系方式</a>
         </div>
     </nav>
 
-    <!-- 首页 -->
-    <section id="home" class="section-padding pt-40">
+    <section id="home" class="section-padding pt-40 relative overflow-hidden">
         <div class="max-w-6xl mx-auto fade-scroll">
             <h1 class="text-[clamp(2.2rem,5vw,3.6rem)] font-bold mb-6 tracking-tight">hello·无限</h1>
-            <p class="text-textGray text-xl max-w-2xl leading-relaxed">在机电与AI的交汇处，重构属于自己的无限可能。保持热爱，不断探索，自律自强，做持续成长的自己。</p >
+            <p class="text-textGray dark:text-slate-300 text-xl max-w-2xl leading-relaxed">
+                在机电与AI的交汇处，重构属于自己的无限可能。保持热爱，不断探索，自律自强，做持续成长的自己。
+            </p>
         </div>
     </section>
 
-    <!-- 个人特色展示 -->
-    <section id="feature" class="section-padding bg-gray-50/70">
+    <section id="feature" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
         <div class="max-w-6xl mx-auto fade-scroll">
             <h2 class="text-3xl font-bold mb-12">个人特色展示</h2>
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="grid grid-cols-2 gap-4">
-                    < img src="images/photo1.jpg" alt="个人照片1" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    < img src="images/photo2.jpg" alt="个人照片2" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    < img src="images/photo3.jpg" alt="个人照片3" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    < img src="images/photo4.jpg" alt="个人照片4" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    <img src="images/photo1.jpg" alt="个人照片1" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    <img src="images/photo2.jpg" alt="个人照片2" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    <img src="images/photo3.jpg" alt="个人照片3" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    <img src="images/photo4.jpg" alt="个人照片4" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
                 </div>
                 <div>
                     <h3 class="text-2xl font-semibold mb-6">个人形象与性格特长</h3>
-                    <ul class="space-y-5 text-textGray text-lg">
+                    <ul class="space-y-5 text-textGray dark:text-slate-300 text-lg">
                         <li><i class="fa-solid fa-person mr-2 text-accent"></i>性格阳光开朗，待人热情，心态积极向上，抗压能力强</li>
                         <li><i class="fa-solid fa-ruler-vertical mr-2 text-accent"></i>身高：182cm，身材高大挺拔</li>
-                        <li><i class="fa-solid fa-weight-scale mr-2 text-accent"></i>体重：170斤，体格健壮，长期坚持体育锻炼</li
+                        <li><i class="fa-solid fa-weight-scale mr-2 text-accent"></i>体重：170斤，体格健壮，长期坚持体育锻炼</li>
+                        <li><i class="fa-solid fa-brain mr-2 text-accent"></i>善于思考，动手能力强，喜欢钻研新技术</li>
+                        <li><i class="fa-solid fa-users mr-2 text-accent"></i>拥有良好团队协作能力，乐于沟通，责任心强</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="interest" class="section-padding">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">深耕方向</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
+                    <img src="images/mech.jpg" alt="机电机械" class="w-full h-44 object-cover rounded-lg mb-4">
+                    <i class="fa-solid fa-cogs text-4xl text-accent mb-4"></i>
+                    <h4 class="text-xl font-semibold mb-3">机电技术</h4>
+                    <p class="text-textGray dark:text-slate-300">熟悉机械结构、电路基础，了解自动化控制相关知识。</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
+                    <img src="images/ai-web.jpg" alt="AI与网页开发" class="w-full h-44 object-cover rounded-lg mb-4">
+                    <i class="fa-solid fa-robot text-4xl text-accent mb-4"></i>
+                    <h4 class="text-xl font-semibold mb-3">人工智能 & 前端开发</h4>
+                    <p class="text-textGray dark:text-slate-300">学习AI基础，掌握网页制作，探索智能应用开发。</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
+                    <i class="fa-solid fa-lightbulb text-4xl text-accent mb-4"></i>
+                    <h4 class="text-xl font-semibold mb-3">创新实践</h4>
+                    <p class="text-textGray dark:text-slate-300">将技术落地，参与演讲、程序开发、音乐创作等多元化实践。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">成长历程</h2>
+            <div class="mb-8">
+                <img src="images/story.jpg" alt="成长历程" class="w-full h-64 object-cover rounded-xl shadow-lg">
+            </div>
+            <div class="space-y-8 border-l-2 border-accent pl-6">
+                <div>
+                    <h4 class="text-xl font-semibold">小学阶段</h4>
+                    <p class="text-textGray dark:text-slate-300">培养良好学习习惯，对科学产生浓厚兴趣。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold">初中阶段</h4>
+                    <p class="text-textGray dark:text-slate-300">接触信息技术，开始了解电脑、编程基础。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold">高中阶段</h4>
+                    <p class="text-textGray dark:text-slate-300">系统学习理科知识，确定机电方向的发展路线。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold">准大学阶段</h4>
+                    <p class="text-textGray dark:text-slate-300">即将进入大学，深耕机电+AI方向，不断参加实践，积累项目经验。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section-padding">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">教育背景</h2>
+            <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md">
+                <ul class="space-y-4 text-textGray dark:text-slate-300 text-lg">
+                    <li><i class="fa-solid fa-school mr-2 text-accent"></i>录取院校：福建理工大学</li>
+                    <li><i class="fa-solid fa-book-open mr-2 text-accent"></i>录取专业：机械电子工程</li>
+                    <li><i class="fa-solid fa-award mr-2 text-accent"></i>个人状态：准大一新生，满怀期待迎接大学生活。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="practice" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">项目&实践经历</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
+                    <h4 class="text-xl font-semibold mb-3">📞中国移动营业厅实习</h4>
+                    <p class="text-textGray dark:text-slate-300">在中国移动线下销售门店、营业厅实习，熟悉门店完整工作流程与岗位分工，锻炼沟通服务能力。</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
+                    <h4 class="text-xl font-semibold mb-3">🎵AI音乐创作《轻拿轻放》</h4>
+                    <p class="text-textGray dark:text-slate-300">运用AI工具独立完成原创音乐《轻拿轻放》，完成词曲创作与音频生成。</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
+                    <h4 class="text-xl font-semibold mb-3">💻C语言猜数字游戏开发</h4>
+                    <p class="text-textGray dark:text-slate-300">使用C语言编写控制台猜数字小游戏，实现随机数生成、判断逻辑、循环交互。</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
+                    <h4 class="text-xl font-semibold mb-3">🎤三八妇乐中型商业演讲</h4>
+                    <p class="text-textGray dark:text-slate-300">参与三八妇乐公司中型商业主题演讲，锻炼公开表达、临场发挥与商务演讲能力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skill" class="section-padding">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">专业技能 & 证书</h2>
+            <div class="mb-6">
+                <img src="images/cert-ai.jpg" alt="AI训练师证书" class="w-full h-52 object-cover rounded-xl shadow-lg">
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
+                    <i class="fa-brands fa-html5 text-4xl text-accent mb-3"></i>
+                    <h5 class="font-semibold">HTML / CSS</h5>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
+                    <i class="fa-solid fa-code text-4xl text-accent mb-3"></i>
+                    <h5 class="font-semibold">C语言编程</h5>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
+                    <i class="fa-solid fa-car text-4xl text-accent mb-3"></i>
+                    <h5 class="font-semibold">C1机动车驾驶证</h5>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
+                    <i class="fa-solid fa-certificate text-4xl text-accent mb-3"></i>
+                    <h5 class="font-semibold">阿里高级AI训练师（官方认证）</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hobby" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">兴趣爱好</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-6 card-hover">
+                    <i class="fa-solid fa-microphone-lines text-4xl text-accent mb-3"></i>
+                    <h5 class="text-lg font-medium">说唱</h5>
+                </div>
+                <div class="p-6 card-hover">
+                    <i class="fa-solid fa-basketball text-4xl text-accent mb-3"></i>
+                    <h5 class="text-lg font-medium">篮球</h5>
+                </div>
+                <div class="p-6 card-hover">
+                    <i class="fa-solid fa-rope text-4xl text-accent mb-3"></i>
+                    <h5 class="text-lg font-medium">跳绳</h5>
+                </div>
+                <div class="p-6 card-hover">
+                    <i class="fa-solid fa-guitar text-4xl text-accent mb-3"></i>
+                    <h5 class="text-lg font-medium">吉他</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <div class="max-w-4xl mx-auto text-center fade-scroll">
+            <h2 class="text-3xl font-bold mb-8">联系方式</h2>
+            <div class="space-y-3 text-textGray dark:text-slate-300 text-lg">
+                <p>姓名：倪毅豪</p>
+                <p>手机号码：19859796883</p>
+                <p>微信号：19859796883</p>
+                <p>QQ号码：3413472573</p>
+            </div>
+            <div class="flex justify-center gap-8 text-4xl mt-8">
+                <a href="#" class="text-accent card-hover"><i class="fa-brands fa-qq"></i></a>
+                <a href="#" class="text-accent card-hover"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-textGray dark:text-slate-400 border-t dark:border-slate-700">
+        © 2026 倪毅豪 · 个人自我介绍网站 · All Rights Reserved
+    </footer>
+
+    <script>
+        //汉堡菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        //主题切换
+        const html = document.documentElement;
+        const toggle = document.getElementById('themeToggle');
+        const toggleMobile = document.getElementById('themeToggleMobile');
+        function switchTheme() {
+            html.classList.toggle('dark');
+        }
+        toggle.addEventListener('click', switchTheme);
+        toggleMobile.addEventListener('click', switchTheme);
+
+        //导航滚动毛玻璃
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                nav.classList.add('bg-white/85', 'dark:bg-slate-900/85', 'backdrop-blur-md', 'shadow-md');
+            } else {
+                nav.classList.remove('bg-white/85', 'dark:bg-slate-900/85', 'backdrop-blur-md', 'shadow-md');
+            }
+        });
+
+        //滚动渐入动画
+        const fadeItems = document.querySelectorAll('.fade-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(item => {
+                if (item.isIntersecting) {
+                    item.target.classList.add('active');
+                }
+            })
+        }, { threshold: 0.15 });
+        fadeItems.forEach(el => observer.observe(el));
+
+        //粒子初始化
+        function initParticles() {
+            const dark = html.classList.contains('dark');
+            let particleColor = dark ? "#60a5fa" : "#2563eb";
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 45, density: { enable: true, value_area: 800 } },
+                    color: { value: particleColor },
+                    opacity: { value: dark ? 0.35 : 0.25 },
+                    size: { value: 2.5 },
+                    line_linked: { enable: true, color: particleColor, opacity: dark ? 0.18 : 0.12, distance: 120 },
+                    move: { enable: true, speed: 1.2 }
+                },
+                interactivity: {
+                    events: { onhover: { enable: true, mode: "grab" } }
+                }
+            })
+        }
+        initParticles();
+
+        //切换主题重载粒子
+        toggle.addEventListener('click', () => {
+            document.getElementById('particles-js').innerHTML = "";
+            initParticles();
+        });
+        toggleMobile.addEventListener('click', () => {
+            document.getElementById('particles-js').innerHTML = "";
+            initParticles();
+        });
+    </script>
+</body>
+</html>
