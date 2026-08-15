@@ -2,102 +2,111 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人自我介绍网站</title>
-    <style>
-        body {
-            background-color: #ffffff;
-            padding: 60px;
-            font-family: sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
+    <!-- 粒子动效 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#111827',
+                        textGray: '#555862',
+                        accent: '#2563eb'
+                    },
+                    fontFamily: {
+                        sans: ['system-ui', 'sans-serif']
+                    }
+                }
+            }
         }
-        h2 {
-            color: #222;
-            font-size: 32px;
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                @apply transition-all duration-400 ease-out hover:-translate-y-3 hover:shadow-2xl;
+            }
+            .section-padding {
+                @apply py-24 px-6;
+            }
+            .fade-scroll {
+                opacity: 0;
+                transform: translateY(48px);
+                transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            }
+            .fade-scroll.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        p {
-            color: #555;
-            font-size: 18px;
-            line-height: 1.8;
+        html {
+            scroll-behavior: smooth;
         }
-        /* 卡片样式+悬浮上浮动画 */
-        .card {
-            border: 1px solid #eee;
-            padding: 20px;
-            border-radius: 8px;
-            width: 280px;
-            transition: 0.3s ease;
-        }
-        .card:hover {
-            box-shadow: 0 4px 12px #eee;
-            transform: translateY(-4px);
-        }
-        /* 卡片内图片统一样式 */
-        .pic {
+        /* 粒子背景底层，不遮挡内容 */
+        #particles-js {
+            position: fixed;
             width: 100%;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            object-fit: cover;
-        }
-        /* 成长板块个人照片样式 */
-        .about-pic {
-            width: 60%;
-            border-radius: 6px;
-            margin: 12px 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: #ffffff;
         }
     </style>
 </head>
-<body>
-    <!-- 顶部导航栏 -->
-    <nav style="margin-bottom: 40px;">
-        <a href=" " style="margin-right: 25px; text-decoration: none; color:#222; font-size:18px;">首页</a >
-        <a href="#study" style="margin-right: 25px; text-decoration: none; color:#222; font-size:18px;">兴趣方向</a >
-        <a href="#about" style="margin-right: 25px; text-decoration: none; color:#222; font-size:18px;">成长历程</a >
-        <a href="#contact" style="text-decoration: none; color:#222; font-size:18px;">联系方式</a >
+<body class="bg-white text-primary font-sans overflow-x-hidden">
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+
+    <!-- 导航栏（完整滚动变色毛玻璃效果） -->
+    <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <div class="text-xl font-bold">个人自我介绍</div>
+            <div class="hidden md:flex gap-8">
+                <a href=" " class="hover:text-accent transition-colors">首页</a >
+                <a href="#feature" class="hover:text-accent transition-colors">个人特色</a >
+                <a href="#interest" class="hover:text-accent transition-colors">深耕方向</a >
+                <a href="#experience" class="hover:text-accent transition-colors">成长历程</a >
+                <a href="#education" class="hover:text-accent transition-colors">教育背景</a >
+                <a href="#practice" class="hover:text-accent transition-colors">项目&实践经历</a >
+                <a href="#skill" class="hover:text-accent transition-colors">专业技能&证书</a >
+                <a href="#hobby" class="hover:text-accent transition-colors">兴趣爱好</a >
+                <a href="#contact" class="hover:text-accent transition-colors">联系方式</a >
+            </div>
+            <button class="md:hidden text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
     </nav>
 
-    <!-- 首页横幅 -->
-    <section id="home">
-        <h2>hello·无限 极简主义</h2>
-        <p>在机电与AI的交汇处，重构无限可能。</p >
-    </section>
-
-    <!-- 兴趣方向卡片（3处图片预留位） -->
-    <section id="study" style="margin-top: 80px;">
-        <h2>我的深耕方向</h2>
-        <div style="display: flex; gap: 30px; margin-top: 20px;">
-            <!-- 第一张卡片：机电方向，替换plane.jpg为你的图片文件名 -->
-            <div class="card">
-                <img src="Lego.jpg/efdcfb2e09379b025c58ae47a8b14281.jpg" class="pic" alt="乐高">
-                <h3>机电机械方向</h3>
-                <p>从小痴迷遥控飞机、乐高赛车，热爱机械结构、动力装置与发明创造。</p >
-            </div>
-            <!-- 第二张卡片：网页AI方向，替换code.jpg为你的图片文件名 -->
-            <div class="card">
-                <img src="code.jpg/47dd90215f64fe5c5c168564162bc12b.jpg" class="pic" alt="网页开发">
-                <h3>AI & 网页开发</h3>
-                <p>自学前端网页制作，探索人工智能技术，用网页记录自己的成长故事。</p >
-            </div>
+    <!-- 首页 -->
+    <section id="home" class="section-padding pt-40">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h1 class="text-[clamp(2.2rem,5vw,3.6rem)] font-bold mb-6 tracking-tight">hello·无限</h1>
+            <p class="text-textGray text-xl max-w-2xl leading-relaxed">在机电与AI的交汇处，重构属于自己的无限可能。保持热爱，不断探索，自律自强，做持续成长的自己。</p >
         </div>
     </section>
 
-    <!-- 你的成长历程完整文案 -->
-    <section id="about" style="margin-top: 80px;">
-        <h2>我的成长历程</h2>
-        <!-- 个人照片预留位，替换myphoto.jpg为你的照片文件名 -->
-        <img src="myphoto1.jpg/cec8dc8f46d4f802e7d57d410f438720.jpg" class="about-pic" alt="个人生活照片1">
-        <img src="myphoto2.jpg/93be573e5a1cbf6b115be7096bd00aff.jpg" class="about-pic" alt="个人生活照片2">
-        <img src="myphoto3.jpg/fd9a5fc7e54b3f743170d8317739e519.jpg" class="about-pic" alt="个人生活照片3">
-        <img src="myphoto4.jpg/6ce42225fe5153ab228a3c6d8b8801da.jpg" class="about-pic" alt="个人生活照片4">
-        <img src="myphoto5.jpg/b165098fd6c60e32f9770008daf204ec.jpg" class="about-pic" alt="个人生活照片5">
-        <p>童年时期就对遥控飞机，乐高赛车充满热情，这使我萌生出要通过发明出人头地的理想，于是我下定决心，要抓住人生路上的每一个机会，但人生不总是一帆风顺的，在追梦的路上我也曾迷茫，内向使我眼睁睁的看着青春溜走，幸运的是，人生路上的每个人都是成就我的那缕缕阳光，我逐渐改变，理性辩证看待一切，对新事物充满热情，接收并享受这一切。</p >
-        <p>我的故事还在星芒四射，所以期待与你的相遇。</p >
-    </section>
-
-    <!-- 已填好你的真实联系方式，无需修改 -->
-    <section id="contact" style="margin-top: 80px;">
-        <h2>联系我</h2>
-        <p>邮箱：3413472573@qq.com 微信：nyh19859796883</p >
-    </section>
-</body>
-</html>
+    <!-- 个人特色展示 -->
+    <section id="feature" class="section-padding bg-gray-50/70">
+        <div class="max-w-6xl mx-auto fade-scroll">
+            <h2 class="text-3xl font-bold mb-12">个人特色展示</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-2 gap-4">
+                    < img src="images/photo1.jpg" alt="个人照片1" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    < img src="images/photo2.jpg" alt="个人照片2" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    < img src="images/photo3.jpg" alt="个人照片3" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                    < img src="images/photo4.jpg" alt="个人照片4" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">个人形象与性格特长</h3>
+                    <ul class="space-y-5 text-textGray text-lg">
+                        <li><i class="fa-solid fa-person mr-2 text-accent"></i>性格阳光开朗，待人热情，心态积极向上，抗压能力强</li>
+                        <li><i class="fa-solid fa-ruler-vertical mr-2 text-accent"></i>身高：182cm，身材高大挺拔</li>
+                        <li><i class="fa-solid fa-weight-scale mr-2 text-accent"></i>体重：170斤，体格健壮，长期坚持体育锻炼</li
