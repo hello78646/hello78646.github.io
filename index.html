@@ -57,11 +57,41 @@
             left: 0;
             z-index: -1;
         }
+        #backTop{
+    position:fixed;
+    bottom:2rem;
+    right:2rem;
+    width:48px;
+    height:48px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    z-index:999;
+    opacity:0;
+    pointer-events:none;
+    transition: all 0.4s cubic-bezier(0.2,0,0.2,1);
+    box-shadow:0 6px 18px rgba(59,130,246,0.35);
+}
+#backTop.show{
+    opacity:1;
+    pointer-events:auto;
+}
+#backTop:hover{
+    transform: translateY(-5px);
+    box-shadow:0 10px 24px rgba(59,130,246,0.45);
+}
+video{
+    border-radius:0.75rem;
+}
     </style>
 </head>
 <body class="bg-white dark:bg-slate-900 text-primary dark:text-slate-100 font-sans overflow-x-hidden transition-colors duration-500">
     <div id="particles-js"></div>
-
+    <div id="backTop">↑</div>
     <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4">
         <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
             <div class="text-xl font-bold">倪毅豪 · 个人自我介绍</div>
@@ -208,21 +238,31 @@
                 <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
                     <h4 class="text-xl font-semibold mb-3">📞中国移动营业厅实习</h4>
                     <p class="text-textGray dark:text-slate-300">在中国移动线下销售门店、营业厅实习，熟悉门店完整工作流程与岗位分工，锻炼沟通服务能力。</p>
+                    <div class="mt-4">
+                     <img src="images/photo5.jpg" alt="移动实习" 
+                      class="w-full rounded-lg">
+                 </div>
                 </div>
-                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
-                    <h4 class="text-xl font-semibold mb-3">🎵AI音乐创作《轻拿轻放》</h4>
-                    <p class="text-textGray dark:text-slate-300">运用AI工具独立完成原创音乐《轻拿轻放》，完成词曲创作与音频生成。</p>
-                </div>
-                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
-                    <h4 class="text-xl font-semibold mb-3">💻C语言猜数字游戏开发</h4>
-                    <p class="text-textGray dark:text-slate-300">使用C语言编写控制台猜数字小游戏，实现随机数生成、判断逻辑、循环交互。</p>
-                </div>
-                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
-                    <h4 class="text-xl font-semibold mb-3">🎤三八妇乐中型商业演讲</h4>
-                    <p class="text-textGray dark:text-slate-300">参与三八妇乐公司中型商业主题演讲，锻炼公开表达、临场发挥与商务演讲能力。</p>
-                </div>
+            <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md">
+            <h4 class="text-xl font-semibold mb-3">🎵AI音乐创作《轻拿轻放》</h4>
+            <p class="text-textGray dark:text-slate-300">运用AI工具独立完成原创音乐制作</p >
+            <div class="mt-4">
+                <video controls class="w-full rounded-lg">
+                        <source src="videos/music.mp3" type="video/mp4">
+                </video>
             </div>
         </div>
+                    <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
+                        <h4 class="text-xl font-semibold mb-3">💻C语言猜数字游戏开发</h4>
+                        <p class="text-textGray dark:text-slate-300">使用C语言编写控制台猜数字小游戏，实现随机数生成、判断逻辑、循环交互。</p>
+                    </div>
+                            <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md">
+                <h4 class="text-xl font-semibold mb-3">🎤三八妇乐中型商业演讲</h4>
+                <p class="text-textGray dark:text-slate-300">参与三八妇乐公司中型商业演讲实践活动</p >
+                <div class="mt-4">
+                    <img src="images/speech.jpg" alt="商业演讲" class="w-full rounded-lg">
+                </div>
+            </div>
     </section>
 
     <section id="skill" class="section-padding">
@@ -364,6 +404,18 @@
             document.getElementById('particles-js').innerHTML = "";
             initParticles();
         });
+        //回到顶部
+const backTop = document.querySelector('#backTop');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>400){
+    backTop.classList.add('show');
+  }else{
+    backTop.classList.remove('show');
+  }
+})
+backTop.onclick=()=>{
+    window.scrollTo({top:0,behavior:'smooth'});
+}
     </script>
 </body>
-</html>
+</html> 
