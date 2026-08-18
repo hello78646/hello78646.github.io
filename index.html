@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="light">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>倪毅豪｜个人自我介绍网站</title>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>倪毅豪 | 个人自我介绍网站</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -12,410 +11,909 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#111827',
-                        textGray: '#555862',
-                        accent: '#2563eb'
-                    },
-                    fontFamily: {
-                        sans: ['system-ui', 'sans-serif']
-                    }
+                    colors: { primary: '#0f172a', textGray: '#64748b', accent: '#3b82f6', accent2: '#06b6d4', gold: '#f59e0b' },
+                    fontFamily: { sans: ['"PingFang SC"', '"Microsoft YaHei"', 'system-ui', 'sans-serif'] }
                 }
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities
-{
-    .content-auto {
-        content-visibility: auto;
+    <style>
+        :root {
+            --bg: #0a0a0f; --bg-secondary: #0f0f1a; --text: #e2e8f0; --text-secondary: #8b9dc3;
+            --accent: #00f0ff; --accent2: #b347ea; --gold: #ff6b35;
+            --card-bg: rgba(10,10,20,0.82); --card-border: rgba(0,240,255,0.15);
+            --nav-bg: rgba(10,10,15,0.9);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2); --shadow-md: 0 8px 32px rgba(0,0,0,0.3);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.4); --shadow-xl: 0 24px 64px rgba(0,0,0,0.5);
+            --radius-sm: 0.75rem; --radius-md: 1rem; --radius-lg: 1.5rem; --radius-xl: 2rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+            background: var(--bg); color: var(--text);
+            overflow-x: hidden; cursor: default;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+        /* ===== SCROLL PROGRESS ===== */
+        #scrollProgress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
+            z-index: 101; transition: width 0.1s linear; border-radius: 0 2px 2px 0;
+        }
+
+        /* ===== NAVIGATION ===== */
+        #mainNav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
+            transition: all 0.5s cubic-bezier(0.2, 0, 0.2, 1); padding: 1rem 0;
+        }
+        #mainNav.scrolled {
+            background: var(--nav-bg); backdrop-filter: blur(28px) saturate(200%);
+            -webkit-backdrop-filter: blur(28px) saturate(200%);
+            box-shadow: var(--shadow-sm); padding: 0.55rem 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .nav-link {
+            position: relative; padding: 0.35rem 0; font-size: 0.88rem; font-weight: 500;
+            color: var(--text-secondary); transition: color 0.35s; white-space: nowrap;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px; transition: width 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+        .nav-link:hover, .nav-link.active { color: var(--accent); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-logo {
+            font-size: 1.1rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        #mobileMenu {
+            background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+            border-bottom: 1px solid var(--card-border);
+            animation: slideDown 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== SECTIONS ===== */
+        .section-padding { padding: 6rem 1.5rem; }
+        @media (min-width: 768px) { .section-padding { padding: 7rem 1.5rem; } }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800;
+            margin-bottom: 0.3rem; letter-spacing: -0.03em;
+        }
+        .section-subtitle { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 3.5rem; font-weight: 400; }
+        .section-divider {
+            width: 60px; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px; margin-bottom: 1.5rem;
+        }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal {
+            opacity: 0; transform: translateY(56px); filter: blur(4px);
+            transition: opacity 0.9s cubic-bezier(0.2, 0, 0.15, 1), transform 0.9s cubic-bezier(0.2, 0, 0.15, 1), filter 0.9s cubic-bezier(0.2, 0, 0.15, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-delay-1 { transition-delay: 0.08s; } .reveal-delay-2 { transition-delay: 0.16s; }
+        .reveal-delay-3 { transition-delay: 0.24s; } .reveal-delay-4 { transition-delay: 0.32s; }
+        .reveal-delay-5 { transition-delay: 0.4s; }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: var(--card-bg); backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md); position: relative; overflow: hidden;
+            transition: all 0.55s cubic-bezier(0.2, 0, 0.15, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 0 1px rgba(0,240,255,0.2), 0 24px 56px rgba(0,0,0,0.2);
+            border-color: rgba(0,240,255,0.5);
+        }
+
+        .glass-card-accent {
+            background: var(--card-bg); backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md); position: relative;
+            transition: all 0.55s cubic-bezier(0.2, 0, 0.15, 1);
+            overflow: visible;
+        }
+        .glass-card-accent::before {
+            content: ''; position: absolute; inset: -1px; border-radius: inherit;
+            background: transparent; opacity: 0;
+            z-index: -1; transition: all 0.55s cubic-bezier(0.2, 0, 0.15, 1);
+        }
+        .glass-card-accent:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 0 2px rgba(0,240,255,0.1), 0 28px 64px rgba(0,0,0,0.12);
+            border-color: rgba(0,240,255,0.4);
+        }
+        .glass-card-accent:hover::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(0,240,255,0.35), rgba(179,71,234,0.2), rgba(255,107,53,0.12), rgba(0,240,255,0.3));
+            filter: blur(6px);
+        }
+
+        /* ===== HERO ===== */
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.05;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent2) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-dot {
+            display: inline-block; width: 12px; height: 12px;
+            background: var(--accent2); border-radius: 50%;
+            animation: dotPulse 2s ease-in-out infinite;
+            margin: 0 0.3rem; vertical-align: middle;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0,240,255,0.4); }
+            50% { transform: scale(1.8); opacity: 1; box-shadow: 0 0 24px 6px rgba(0,240,255,0.3); }
+        }
+
+        /* ===== IMAGE ZOOM HOVER ===== */
+        .img-zoom {
+            overflow: hidden; border-radius: var(--radius-md); position: relative;
+        }
+        .img-zoom img {
+            transition: transform 0.7s cubic-bezier(0.2, 0, 0.15, 1);
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .img-zoom:hover img { transform: scale(1.08); }
+
+        /* ===== TIMELINE ===== */
+        .timeline { position: relative; padding-left: 2.5rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+            border-radius: 1px;
+        }
+        .timeline-item { position: relative; padding-bottom: 2.5rem; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.5rem; top: 0.4rem;
+            width: 14px; height: 14px; background: var(--accent);
+            border-radius: 50%; border: 3px solid var(--bg);
+            box-shadow: 0 0 0 3px var(--accent); transition: all 0.4s;
+        }
+        .timeline-item:hover::before {
+            background: var(--accent2); box-shadow: 0 0 0 8px rgba(0,240,255,0.2);
+            transform: scale(1.35);
+        }
+
+        /* ===== SKILL & HOBBY BADGES ===== */
+        .skill-badge {
+            display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+            padding: 2rem 1.5rem; background: var(--card-bg);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border); border-radius: var(--radius-md);
+            transition: all 0.5s cubic-bezier(0.2, 0, 0.15, 1);
+            position: relative; overflow: hidden;
+        }
+        .skill-badge::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+            transform: scaleX(0); transition: transform 0.5s cubic-bezier(0.2, 0, 0.15, 1);
+        }
+        .skill-badge:hover::before { transform: scaleX(1); }
+        .skill-badge:hover {
+            transform: translateY(-6px); border-color: rgba(0,240,255,0.35);
+            box-shadow: 0 0 0 1px rgba(0,240,255,0.08), 0 16px 48px rgba(0,240,255,0.12);
+        }
+        .skill-badge i {
+            font-size: 2.5rem; transition: transform 0.4s;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .skill-badge:hover i { transform: scale(1.15); }
+
+        .hobby-badge {
+            padding: 2rem 1.5rem; text-align: center; border-radius: var(--radius-lg);
+            background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border); cursor: default;
+            transition: all 0.5s cubic-bezier(0.2, 0, 0.15, 1);
+            position: relative; overflow: hidden;
+        }
+        .hobby-badge::before {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
+            transform: scaleX(0); transition: transform 0.5s cubic-bezier(0.2, 0, 0.15, 1);
+            transform-origin: left;
+        }
+        .hobby-badge:hover::before { transform: scaleX(1); }
+        .hobby-badge:hover {
+            transform: translateY(-8px); border-color: rgba(0,240,255,0.3);
+            box-shadow: 0 0 0 1px rgba(0,240,255,0.06), 0 24px 56px rgba(0,240,255,0.1);
+        }
+        .hobby-badge i {
+            font-size: 2.8rem; display: block; margin-bottom: 0.75rem; transition: transform 0.4s;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hobby-badge:hover i { transform: scale(1.1); }
+
+        /* ===== BACK TO TOP ===== */
+        #backTop {
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 99; opacity: 0; pointer-events: none;
+            transform: translateY(12px); font-size: 1.2rem;
+            transition: all 0.5s cubic-bezier(0.2, 0, 0.15, 1);
+            box-shadow: 0 8px 28px rgba(0,240,255,0.3);
+        }
+        #backTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        #backTop:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 14px 36px rgba(0,240,255,0.45); }
+
+        .float-badge {
+            animation: floatBadge 6s ease-in-out infinite;
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-12px) rotate(1deg); }
+            75% { transform: translateY(6px) rotate(-1deg); }
+        }
+
+        .tech-tag {
+            font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tech-tag:hover { transform: translateY(-1px); }
+
+        .accent-text {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        /* Punk timeline */
+        [data-theme="cyber"] .timeline::before {
+            box-shadow: 0 0 8px var(--accent), 0 0 20px var(--accent2);
+        }
+        [data-theme="cyber"] .timeline-item::before {
+            box-shadow: 0 0 0 3px var(--accent), 0 0 12px var(--accent), 0 0 24px var(--accent2);
+        }
+        [data-theme="cyber"] .timeline-item:hover::before {
+            box-shadow: 0 0 0 8px rgba(0,240,255,0.3), 0 0 20px var(--accent), 0 0 40px var(--accent2);
+        }
+
+        /* Punk buttons */
+        [data-theme="cyber"] .glass-card a[href] {
+            box-shadow: 0 0 10px rgba(0,240,255,0.3);
+        }
+        [data-theme="cyber"] .glass-card a[href]:hover {
+            box-shadow: 0 0 20px rgba(0,240,255,0.5), 0 0 40px rgba(179,71,234,0.3);
+        }
+
+        /* Punk skill/hobby badge */
+        [data-theme="cyber"] .skill-badge:hover {
+            box-shadow: 0 0 15px rgba(0,240,255,0.2), 0 0 35px rgba(179,71,234,0.1);
+        }
+        [data-theme="cyber"] .hobby-badge:hover {
+            box-shadow: 0 0 15px rgba(0,240,255,0.2), 0 0 35px rgba(179,71,234,0.1);
+        }
+
+        /* Punk back to top */
+        [data-theme="cyber"] #backTop {
+            box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent2);
+        }
+        [data-theme="cyber"] #backTop:hover {
+            box-shadow: 0 0 25px var(--accent), 0 0 50px var(--accent2);
+        }
+
+        /* Angular decorative corners */
+        .punk-corner {
+            position: absolute; width: 16px; height: 16px; pointer-events: none;
+            border-color: var(--accent); opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .glass-card:hover .punk-corner, .glass-card-accent:hover .punk-corner { opacity: 0.7; }
+        .punk-corner-tl { top: 6px; left: 6px; border-top: 2px solid; border-left: 2px solid; }
+        .punk-corner-tr { top: 6px; right: 6px; border-top: 2px solid; border-right: 2px solid; }
+        .punk-corner-bl { bottom: 6px; left: 6px; border-bottom: 2px solid; border-left: 2px solid; }
+        .punk-corner-br { bottom: 6px; right: 6px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        [data-theme="cyber"] .punk-corner { border-color: var(--accent); box-shadow: 0 0 4px var(--accent); }
+
+    /* ===== CURSOR GLOW ===== */
+    #cursorGlow {
+        position: fixed; top: 0; left: 0; width: 320px; height: 320px;
+        border-radius: 50%; pointer-events: none; z-index: 0;
+        background: radial-gradient(circle, rgba(0,240,255,0.07) 0%, rgba(179,71,234,0.04) 30%, transparent 70%);
+        transform: translate(-50%, -50%); will-change: left, top;
     }
-    .card-hover {
-        @apply transition-all duration-500 ease-out hover:-translate-y-3 hover:shadow-2xl;
+
+    /* ===== ORB GLOW ===== */
+    .orb-glow {
+        position: fixed; border-radius: 50%; pointer-events: none; z-index: -1;
+        filter: blur(90px); opacity: 0.35; will-change: transform;
     }
-    .section-padding {
-        @apply py-24 px-6;
+    .orb-glow:nth-of-type(1) {
+        width: 450px; height: 450px; top: 8%; left: 3%;
+        background: radial-gradient(circle, rgba(0,240,255,0.18), transparent 70%);
+        animation: orbFloat1 12s ease-in-out infinite;
     }
-    .fade-scroll {
-        opacity: 0;
-        transform: translateY(48px);
-        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    .orb-glow:nth-of-type(2) {
+        width: 380px; height: 380px; top: 55%; right: 4%;
+        background: radial-gradient(circle, rgba(179,71,234,0.14), transparent 70%);
+        animation: orbFloat2 14s ease-in-out infinite;
     }
-    .fade-scroll.active {
+    .orb-glow:nth-of-type(3) {
+        width: 320px; height: 320px; bottom: 8%; left: 25%;
+        background: radial-gradient(circle, rgba(255,107,53,0.08), transparent 70%);
+        animation: orbFloat3 16s ease-in-out infinite;
+    }
+    @keyframes orbFloat1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -20px) scale(1.1); }
+        66% { transform: translate(-15px, 25px) scale(0.9); }
+    }
+    @keyframes orbFloat2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(-25px, 15px) scale(1.08); }
+        66% { transform: translate(20px, -20px) scale(0.92); }
+    }
+    @keyframes orbFloat3 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(20px, -30px) scale(1.12); }
+    }
+
+    /* ===== CARD SHIMMER (hover only) ===== */
+    .card-shimmer { position: relative; overflow: hidden; }
+    .card-shimmer::after {
+        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+        background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(0,240,255,0.15) 42%,
+            rgba(179,71,234,0.18) 48%,
+            rgba(255,107,53,0.12) 52%,
+            rgba(0,240,255,0.15) 58%,
+            transparent 65%
+        );
+        pointer-events: none; opacity: 0; transition: opacity 0.3s;
+    }
+    .card-shimmer:hover::after {
         opacity: 1;
-        transform: translateY(0);
+        animation: shimmer 1s linear infinite;
     }
-}
-        html {
-            scroll-behavior: smooth;
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    /* ===== THEME BUTTON ===== */
+    .theme-btn {
+        width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--card-border);
+        background: var(--card-bg); color: var(--text-secondary); cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.35s; font-size: 0.8rem;
+    }
+    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-btn.active { background: var(--accent); color: #0a0a0f; border-color: var(--accent); box-shadow: 0 0 12px rgba(0,240,255,0.4); }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-link-mobile:hover { background: rgba(0,240,255,0.08); color: var(--accent) !important; }
+
+    /* ===== GLOBAL IMG ===== */
+
+        @media (max-width: 768px) {
+            .section-padding { padding: 4rem 1rem; }
+            .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
         }
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        #backTop{
-    position:fixed;
-    bottom:2rem;
-    right:2rem;
-    width:48px;
-    height:48px;
-    border-radius:999px;
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    z-index:999;
-    opacity:0;
-    pointer-events:none;
-    transition: all 0.4s cubic-bezier(0.2,0,0.2,1);
-    box-shadow:0 6px 18px rgba(59,130,246,0.35);
-}
-#backTop.show{
-    opacity:1;
-    pointer-events:auto;
-}
-#backTop:hover{
-    transform: translateY(-5px);
-    box-shadow:0 10px 24px rgba(59,130,246,0.45);
-}
-video{
-    border-radius:0.75rem;
-}
     </style>
 </head>
-<body class="bg-white dark:bg-slate-900 text-primary dark:text-slate-100 font-sans overflow-x-hidden transition-colors duration-500">
-    <div id="particles-js"></div>
-    <div id="backTop">↑</div>
-    <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4">
+<body data-theme="cyber">
+
+    <div id="cursorGlow"></div>
+    <div class="orb-glow"></div>
+    <div class="orb-glow"></div>
+    <div class="orb-glow"></div>
+    <canvas id="bgCanvas"></canvas>
+    <div id="scrollProgress"></div>
+    <div id="backTop"><i class="fa-solid fa-arrow-up"></i></div>
+
+    <!-- ============ NAVIGATION ============ -->
+    <nav id="mainNav">
         <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-            <div class="text-xl font-bold">倪毅豪 · 个人自我介绍</div>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#home" class="hover:text-accent transition-colors">首页</a>
-                <a href="#feature" class="hover:text-accent transition-colors">个人特色</a>
-                <a href="#interest" class="hover:text-accent transition-colors">深耕方向</a>
-                <a href="#experience" class="hover:text-accent transition-colors">成长历程</a>
-                <a href="#education" class="hover:text-accent transition-colors">教育背景</a>
-                <a href="#practice" class="hover:text-accent transition-colors">项目&实践经历</a>
-                <a href="#skill" class="hover:text-accent transition-colors">专业技能&证书</a>
-                <a href="#hobby" class="hover:text-accent transition-colors">兴趣爱好</a>
-                <a href="#contact" class="hover:text-accent transition-colors">联系方式</a>
-                <button id="themeToggle" class="text-xl">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline"></i>
-                </button>
+            <a href="#home" class="nav-logo text-xl">倪毅豪 · 个人简历</a>
+            <div class="hidden md:flex items-center gap-5">
+                <a href="#home" class="nav-link active" data-section="home">首页</a>
+                <a href="#feature" class="nav-link" data-section="feature">个人特色</a>
+                <a href="#interest" class="nav-link" data-section="interest">深耕方向</a>
+                <a href="#experience" class="nav-link" data-section="experience">成长历程</a>
+                <a href="#education" class="nav-link" data-section="education">教育背景</a>
+                <a href="#practice" class="nav-link" data-section="practice">项目实践</a>
+                <a href="#skill" class="nav-link" data-section="skill">技能证书</a>
+                <a href="#hobby" class="nav-link" data-section="hobby">兴趣爱好</a>
+                <a href="#contact" class="nav-link" data-section="contact">联系方式</a>
             </div>
-            <div class="md:hidden flex items-center gap-4">
-                <button id="themeToggleMobile" class="text-xl">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline"></i>
-                </button>
-                <button id="menuBtn" class="text-xl">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+            <div class="md:hidden flex items-center gap-2">
+                <button id="menuBtn" class="text-xl p-1.5 rounded-lg hover:bg-gray-200/50 transition-all ml-1" style="color:var(--text-secondary);"><i class="fa-solid fa-bars"></i></button>
             </div>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 space-y-3 bg-white/95 dark:bg-slate-900/95 shadow-lg">
-            <a href="#home" class="block py-2 hover:text-accent">首页</a>
-            <a href="#feature" class="block py-2 hover:text-accent">个人特色</a>
-            <a href="#interest" class="block py-2 hover:text-accent">深耕方向</a>
-            <a href="#experience" class="block py-2 hover:text-accent">成长历程</a>
-            <a href="#education" class="block py-2 hover:text-accent">教育背景</a>
-            <a href="#practice" class="block py-2 hover:text-accent">项目&实践经历</a>
-            <a href="#skill" class="block py-2 hover:text-accent">专业技能&证书</a>
-            <a href="#hobby" class="block py-2 hover:text-accent">兴趣爱好</a>
-            <a href="#contact" class="block py-2 hover:text-accent">联系方式</a>
+        <div id="mobileMenu" class="hidden md:hidden px-6 pb-5 pt-2 space-y-1.5">
+            <a href="#home" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">首页</a>
+            <a href="#feature" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">个人特色</a>
+            <a href="#interest" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">深耕方向</a>
+            <a href="#experience" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">成长历程</a>
+            <a href="#education" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">教育背景</a>
+            <a href="#practice" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">项目实践</a>
+            <a href="#skill" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">技能证书</a>
+            <a href="#hobby" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">兴趣爱好</a>
+            <a href="#contact" class="block py-2.5 px-3 rounded-lg transition-all nav-link-mobile" style="color:var(--text-secondary);">联系方式</a>
         </div>
     </nav>
 
+    <!-- ============ HERO ============ -->
     <section id="home" class="section-padding pt-40 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h1 class="text-[clamp(2.2rem,5vw,3.6rem)] font-bold mb-6 tracking-tight">hello·无限</h1>
-            <p class="text-textGray dark:text-slate-300 text-xl max-w-2xl leading-relaxed">
-                在机电与AI的交汇处，重构属于自己的无限可能。保持热爱，不断探索，自律自强，做持续成长的自己。
+        <div class="max-w-6xl mx-auto reveal">
+            <p class="text-sm tracking-widest uppercase mb-4 font-medium" style="color:var(--text-secondary);">个人简历 · 自我介绍</p>
+            <h1 class="hero-title mb-6">
+                hello<span class="hero-dot"></span>无限
+            </h1>
+            <p class="text-xl max-w-2xl leading-relaxed font-light" style="color:var(--text-secondary);">
+                在机电与AI的交汇处，重构属于自己的无限可能。<br>保持热爱，不断探索，自律自强，做持续成长的自己。
             </p>
+            <div class="flex gap-4 mt-8">
+                <a href="#feature" class="px-6 py-3 rounded-full text-white text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5" style="background:linear-gradient(135deg, var(--accent), var(--accent2));">
+                    了解更多 <i class="fa-solid fa-arrow-down ml-1.5"></i>
+                </a>
+                <a href="#contact" class="px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5" style="border-color:var(--card-border); color:var(--text-secondary);">
+                    联系我 <i class="fa-solid fa-paper-plane ml-1.5"></i>
+                </a>
+            </div>
         </div>
     </section>
 
-    <section id="feature" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">个人特色展示</h2>
+    <!-- ============ 个人特色 ============ -->
+    <section id="feature" class="section-padding" style="background:var(--bg-secondary);">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">个人特色展示</h2>
+                <p class="section-subtitle">阳光 · 自律 · 钻研 · 协作</p>
+            </div>
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="grid grid-cols-2 gap-4">
-                    <img src="images/photo1.jpg" alt="个人照片1" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    <img src="images/photo2.jpg" alt="个人照片2" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    <img src="images/photo3.jpg" alt="个人照片3" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
-                    <img src="images/photo4.jpg" alt="个人照片4" class="w-full h-64 object-cover rounded-xl shadow-lg card-hover">
+                <div class="grid grid-cols-2 gap-4 reveal reveal-delay-1">
+                    <div class="img-zoom"><img src="images/photo1.jpg" alt="个人照片1" class="w-full h-64 object-cover" style="object-position:center 20%;"></div>
+                    <div class="img-zoom"><img src="images/photo2.jpg" alt="个人照片2" class="w-full h-64 object-cover" style="object-position:center 20%;"></div>
+                    <div class="img-zoom"><img src="images/photo3.jpg" alt="个人照片3" class="w-full h-64 object-cover" style="object-position:center 20%;"></div>
+                    <div class="img-zoom"><img src="images/photo4.jpg" alt="个人照片4" class="w-full h-64 object-cover" style="object-position:center 20%;"></div>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6">个人形象与性格特长</h3>
-                    <ul class="space-y-5 text-textGray dark:text-slate-300 text-lg">
-                        <li><i class="fa-solid fa-person mr-2 text-accent"></i>性格阳光开朗，待人热情，心态积极向上，抗压能力强</li>
-                        <li><i class="fa-solid fa-ruler-vertical mr-2 text-accent"></i>身高：182cm，身材高大挺拔</li>
-                        <li><i class="fa-solid fa-weight-scale mr-2 text-accent"></i>体重：170斤，体格健壮，长期坚持体育锻炼</li>
-                        <li><i class="fa-solid fa-brain mr-2 text-accent"></i>善于思考，动手能力强，喜欢钻研新技术</li>
-                        <li><i class="fa-solid fa-users mr-2 text-accent"></i>拥有良好团队协作能力，乐于沟通，责任心强</li>
+                <div class="reveal reveal-delay-2">
+                    <h3 class="text-2xl font-bold mb-6">个人形象与性格特长</h3>
+                    <ul class="space-y-5 text-lg" style="color:var(--text-secondary);">
+                        <li class="flex items-start gap-3"><span class="accent-text mt-1"><i class="fa-solid fa-sun"></i></span><span>性格阳光开朗，待人热情，心态积极向上，抗压能力强</span></li>
+                        <li class="flex items-start gap-3"><span class="accent-text mt-1"><i class="fa-solid fa-ruler-vertical"></i></span><span>身高：182cm，身材高大挺拔</span></li>
+                        <li class="flex items-start gap-3"><span class="accent-text mt-1"><i class="fa-solid fa-dumbbell"></i></span><span>体重：170斤，体格健壮，长期坚持体育锻炼</span></li>
+                        <li class="flex items-start gap-3"><span class="accent-text mt-1"><i class="fa-solid fa-brain"></i></span><span>善于思考，动手能力强，喜欢钻研新技术</span></li>
+                        <li class="flex items-start gap-3"><span class="accent-text mt-1"><i class="fa-solid fa-handshake"></i></span><span>拥有良好团队协作能力，乐于沟通，责任心强</span></li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============ 深耕方向 ============ -->
     <section id="interest" class="section-padding">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">深耕方向</h2>
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">深耕方向</h2>
+                <p class="section-subtitle">机电 + AI + 创新实践，三维并进</p>
+            </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
-                    <img src="images/mech.jpg" alt="机电机械" class="w-full h-44 object-cover rounded-lg mb-4">
-                    <i class="fa-solid fa-cogs text-4xl text-accent mb-4"></i>
-                    <h4 class="text-xl font-semibold mb-3">机电技术</h4>
-                    <p class="text-textGray dark:text-slate-300">熟悉机械结构、电路基础，了解自动化控制相关知识。</p>
+                <div class="glass-card-accent p-8 reveal reveal-delay-1 card-shimmer">
+                    <span class="punk-corner punk-corner-tl"></span><span class="punk-corner punk-corner-tr"></span><span class="punk-corner punk-corner-bl"></span><span class="punk-corner punk-corner-br"></span>
+                    <div class="mb-5 img-zoom"><img src="images/mech.jpg" alt="机电机械" class="w-full h-44 object-cover rounded-lg" style="object-position:center;"></div>
+                    <i class="fa-solid fa-cogs text-4xl mb-4" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+                    <h4 class="text-xl font-bold mb-3">机电技术</h4>
+                    <p style="color:var(--text-secondary);">熟悉机械结构、电路基础，了解自动化控制相关知识。</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
-                    <img src="images/ai-web.jpg" alt="AI与网页开发" class="w-full h-44 object-cover rounded-lg mb-4">
-                    <i class="fa-solid fa-robot text-4xl text-accent mb-4"></i>
-                    <h4 class="text-xl font-semibold mb-3">人工智能 & 前端开发</h4>
-                    <p class="text-textGray dark:text-slate-300">学习AI基础，掌握网页制作，探索智能应用开发。</p>
+                <div class="glass-card-accent p-8 reveal reveal-delay-2 card-shimmer">
+                    <div class="mb-5 img-zoom"><img src="images/ai-web.jpg" alt="AI与网页开发" class="w-full h-44 object-cover rounded-lg" style="object-position:center;"></div>
+                    <i class="fa-solid fa-robot text-4xl mb-4" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+                    <h4 class="text-xl font-bold mb-3">人工智能 & 前端开发</h4>
+                    <p style="color:var(--text-secondary);">学习AI基础，掌握网页制作，探索智能应用开发。</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md card-hover">
-                    <i class="fa-solid fa-lightbulb text-4xl text-accent mb-4"></i>
-                    <h4 class="text-xl font-semibold mb-3">创新实践</h4>
-                    <p class="text-textGray dark:text-slate-300">将技术落地，参与演讲、程序开发、音乐创作等多元化实践。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">成长历程</h2>
-            <div class="mb-8">
-                <img src="images/story.jpg" alt="成长历程" class="w-full h-64 object-cover rounded-xl shadow-lg">
-            </div>
-            <div class="space-y-8 border-l-2 border-accent pl-6">
-                <div>
-                    <h4 class="text-xl font-semibold">小学阶段</h4>
-                    <p class="text-textGray dark:text-slate-300">培养良好学习习惯，对科学产生浓厚兴趣。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold">初中阶段</h4>
-                    <p class="text-textGray dark:text-slate-300">接触信息技术，开始了解电脑、编程基础。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold">高中阶段</h4>
-                    <p class="text-textGray dark:text-slate-300">系统学习理科知识，确定机电方向的发展路线。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold">准大学阶段</h4>
-                    <p class="text-textGray dark:text-slate-300">即将进入大学，深耕机电+AI方向，不断参加实践，积累项目经验。</p>
+                <div class="glass-card-accent p-8 reveal reveal-delay-3 card-shimmer">
+                    <div class="mb-5 flex items-center justify-center h-44 rounded-lg img-zoom" style="background:linear-gradient(135deg, rgba(59,130,246,0.12), rgba(6,182,212,0.08));">
+                        <i class="fa-solid fa-lightbulb text-5xl" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+                    </div>
+                    <i class="fa-solid fa-lightbulb text-4xl mb-4" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+                    <h4 class="text-xl font-bold mb-3">创新实践</h4>
+                    <p style="color:var(--text-secondary);">将技术落地，参与演讲、程序开发、音乐创作等多元化实践。</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============ 成长历程 ============ -->
+    <section id="experience" class="section-padding" style="background:var(--bg-secondary);">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">成长历程</h2>
+                <p class="section-subtitle">每一步都算数，每一次成长都值得铭记</p>
+            </div>
+            <div class="mb-10 reveal reveal-delay-1">
+                <div class="img-zoom"><img src="images/story.jpg" alt="成长历程" class="w-full h-64 object-cover rounded-lg"></div>
+            </div>
+            <div class="timeline reveal reveal-delay-2">
+                <div class="timeline-item"><h4 class="text-xl font-bold mb-2">小学阶段</h4><p style="color:var(--text-secondary);">培养良好学习习惯，对科学产生浓厚兴趣。</p></div>
+                <div class="timeline-item"><h4 class="text-xl font-bold mb-2">初中阶段</h4><p style="color:var(--text-secondary);">接触信息技术，开始了解电脑、编程基础。</p></div>
+                <div class="timeline-item"><h4 class="text-xl font-bold mb-2">高中阶段</h4><p style="color:var(--text-secondary);">系统学习理科知识，确定机电方向的发展路线。</p></div>
+                <div class="timeline-item"><h4 class="text-xl font-bold mb-2">准大学阶段</h4><p style="color:var(--text-secondary);">即将进入大学，深耕机电+AI方向，不断参加实践，积累项目经验。</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 教育背景 ============ -->
     <section id="education" class="section-padding">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">教育背景</h2>
-            <div class="bg-gray-50 dark:bg-slate-800 p-8 rounded-xl shadow-md">
-                <ul class="space-y-4 text-textGray dark:text-slate-300 text-lg">
-                    <li><i class="fa-solid fa-school mr-2 text-accent"></i>录取院校：福建理工大学</li>
-                    <li><i class="fa-solid fa-book-open mr-2 text-accent"></i>录取专业：机械电子工程</li>
-                    <li><i class="fa-solid fa-award mr-2 text-accent"></i>个人状态：准大一新生，满怀期待迎接大学生活。</li>
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">教育背景</h2>
+                <p class="section-subtitle">新起点，新征程</p>
+            </div>
+            <div class="glass-card-accent p-8 md:p-10 reveal reveal-delay-1 card-shimmer">
+                <span class="punk-corner punk-corner-tl"></span><span class="punk-corner punk-corner-tr"></span><span class="punk-corner punk-corner-bl"></span><span class="punk-corner punk-corner-br"></span>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-center gap-4">
+                        <span class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);"><i class="fa-solid fa-school"></i></span>
+                        <div><span class="text-sm" style="color:var(--text-secondary);">录取院校</span><p class="font-bold text-xl">福建理工大学</p></div>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);"><i class="fa-solid fa-book-open"></i></span>
+                        <div><span class="text-sm" style="color:var(--text-secondary);">录取专业</span><p class="font-bold text-xl">机械电子工程</p></div>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);"><i class="fa-solid fa-award"></i></span>
+                        <div><span class="text-sm" style="color:var(--text-secondary);">个人状态</span><p class="font-bold text-xl">准大一新生，满怀期待迎接大学生活</p></div>
+                    </li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section id="practice" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">项目&实践经历</h2>
+    <!-- ============ 项目实践 ============ -->
+    <section id="practice" class="section-padding" style="background:var(--bg-secondary);">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">项目 & 实践经历</h2>
+                <p class="section-subtitle">在实践中成长，在项目中蜕变</p>
+            </div>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
-                    <h4 class="text-xl font-semibold mb-3">📞中国移动营业厅实习</h4>
-                    <p class="text-textGray dark:text-slate-300">在中国移动线下销售门店、营业厅实习，熟悉门店完整工作流程与岗位分工，锻炼沟通服务能力。</p>
-                    <div class="mt-4">
-                     <img src="images/photo5.jpg" alt="移动实习" 
-                      class="w-full rounded-lg">
-                 </div>
+                <!-- 坦克大战 -->
+                <div class="glass-card p-7 reveal reveal-delay-1 card-shimmer flex flex-col h-full" style="border:1px solid rgba(6,182,212,0.3);">
+                    <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;padding:0.3rem 1rem;font-size:0.75rem;font-weight:700;border-radius:0 0 0 12px;z-index:2;letter-spacing:0.05em;">🎯 可游玩</div>
+                    <span class="punk-corner punk-corner-tl"></span><span class="punk-corner punk-corner-tr"></span><span class="punk-corner punk-corner-bl"></span><span class="punk-corner punk-corner-br"></span>
+                    <h4 class="text-xl font-bold mb-2"><span class="text-2xl mr-2">🤖</span>RoboMaster 风格坦克大战</h4>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tech-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Canvas 游戏引擎</span>
+                        <span class="tech-tag" style="background:rgba(245,158,11,0.12);color:#f59e0b;">AI 敌人系统</span>
+                        <span class="tech-tag" style="background:rgba(34,197,94,0.12);color:#22c55e;">道具系统</span>
+                        <span class="tech-tag" style="background:rgba(139,92,246,0.12);color:#8b5cf6;">粒子特效</span>
+                        <span class="tech-tag" style="background:rgba(239,68,68,0.12);color:#ef4444;">换弹系统</span>
+                    </div>
+                    <p class="mb-4 leading-relaxed text-sm" style="color:var(--text-secondary);">基于原生 JavaScript + Canvas 打造 RoboMaster 机甲风格坦克对战游戏。4 大主动技能(Q/E/R/F)、弹药系统、轰炸区换弹、AI 敌人自主寻路，地图内置倪毅豪署名彩蛋，支持道具拾取、连杀播报、移动端触控等完整玩法。</p>
+                    <a href="tank.html" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">
+                        <i class="fa-solid fa-gamepad"></i> 开始游戏
+                    </a>
                 </div>
-            <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md">
-            <h4 class="text-xl font-semibold mb-3">🎵AI音乐创作《轻拿轻放》</h4>
-            <p class="text-textGray dark:text-slate-300">运用AI工具独立完成原创音乐制作</p >
-            <div class="mt-4">
-                <video controls class="w-full rounded-lg">
-                        <source src="videos/music.mp3" type="video/mp4">
-                </video>
+                <!-- 移动实习 -->
+                <div class="glass-card p-7 reveal reveal-delay-1 card-shimmer flex flex-col h-full">
+                    <h4 class="text-xl font-bold mb-3"><span class="text-2xl mr-2">📞</span>中国移动营业厅实习</h4>
+                    <p class="mb-4 leading-relaxed" style="color:var(--text-secondary);">在中国移动线下销售门店、营业厅实习，熟悉门店完整工作流程与岗位分工，锻炼沟通服务能力。</p>
+                    <div class="img-zoom"><img src="images/photo5.jpg" alt="移动实习" class="w-full h-64 object-cover rounded-lg" style="object-position:center;"></div>
+                </div>
+                <!-- AI音乐 -->
+                <div class="glass-card p-7 reveal reveal-delay-2 card-shimmer flex flex-col h-full">
+                    <h4 class="text-xl font-bold mb-3"><span class="text-2xl mr-2">🎵</span>AI音乐创作《轻拿轻放》</h4>
+                    <p class="mb-4 leading-relaxed" style="color:var(--text-secondary);">运用AI工具独立完成原创音乐制作，探索AI在创意领域的应用边界。</p>
+                    <video controls class="w-full rounded-lg"><source src="videos/music.mp4" type="video/mp4"></video>
+                </div>
+                <!-- 猜数字 -->
+                <div class="glass-card p-7 reveal reveal-delay-3 card-shimmer flex flex-col h-full" style="border:1px solid rgba(34,197,94,0.3);">
+                    <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:0.3rem 1rem;font-size:0.75rem;font-weight:700;border-radius:0 0 0 12px;z-index:2;letter-spacing:0.05em;">🎯 可游玩</div>
+                    <h4 class="text-xl font-bold mb-2"><span class="text-2xl mr-2">💻</span>C语言猜数字游戏</h4>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tech-tag" style="background:rgba(34,197,94,0.12);color:#22c55e;">C 语言</span>
+                        <span class="tech-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4;">终端模拟</span>
+                        <span class="tech-tag" style="background:rgba(245,158,11,0.12);color:#f59e0b;">CRT 复古</span>
+                    </div>
+                    <p class="mb-4 leading-relaxed text-sm" style="color:var(--text-secondary);">C 语言终端风格猜数字游戏，0~100 范围随机数生成，5 次机会，大/小提示，猜中/失败播报，支持再来一局/退出，CRT 复古扫描线 + 打字机逐字输出特效。</p>
+                    <a href="guess.html" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
+                        <i class="fa-solid fa-terminal"></i> 开始游戏
+                    </a>
+                </div>
+                <!-- 三八妇乐 -->
+                <div class="glass-card p-7 reveal reveal-delay-4 card-shimmer flex flex-col h-full">
+                    <h4 class="text-xl font-bold mb-3"><span class="text-2xl mr-2">🎤</span>三八妇乐中型商业演讲</h4>
+                    <p class="mb-4 leading-relaxed" style="color:var(--text-secondary);">参与三八妇乐公司中型商业演讲实践活动，锻炼公众演讲与表达能力。</p>
+                    <div class="img-zoom"><img src="images/speech.jpg" alt="商业演讲" class="w-full h-64 object-cover rounded-lg" style="object-position:center 25%;"></div>
+                </div>
+                <!-- 志愿服务 -->
+                <div class="glass-card p-7 reveal reveal-delay-5 card-shimmer flex flex-col h-full" style="border:1px solid rgba(34,197,94,0.3);">
+                    <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:0.3rem 1rem;font-size:0.75rem;font-weight:700;border-radius:0 0 0 12px;z-index:2;letter-spacing:0.05em;">🤝 志愿服务</div>
+                    <h4 class="text-xl font-bold mb-2"><span class="text-2xl mr-2">♻️</span>社区志愿服务 · 回收站关爱老人</h4>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tech-tag" style="background:rgba(34,197,94,0.12);color:#22c55e;">社区公益</span>
+                        <span class="tech-tag" style="background:rgba(245,158,11,0.12);color:#f59e0b;">关爱老人</span>
+                        <span class="tech-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4;">资源回收</span>
+                    </div>
+                    <p class="mb-4 leading-relaxed text-sm" style="color:var(--text-secondary);">主动参与社区志愿服务，走访回收站周边区域，探望慰问独居老人，将可回收物资整理分类，践行环保理念与人文关怀，用行动传递温暖与善意。</p>
+                    <div class="img-zoom"><img src="images/volunteer.jpg" alt="社区志愿服务" class="w-full h-64 object-cover rounded-lg" style="object-position:center 25%;"></div>
+                </div>
             </div>
         </div>
-                    <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md card-hover">
-                        <h4 class="text-xl font-semibold mb-3">💻C语言猜数字游戏开发</h4>
-                        <p class="text-textGray dark:text-slate-300">使用C语言编写控制台猜数字小游戏，实现随机数生成、判断逻辑、循环交互。</p>
-                    </div>
-                            <div class="bg-white dark:bg-slate-900 p-7 rounded-xl shadow-md">
-                <h4 class="text-xl font-semibold mb-3">🎤三八妇乐中型商业演讲</h4>
-                <p class="text-textGray dark:text-slate-300">参与三八妇乐公司中型商业演讲实践活动</p >
-                <div class="mt-4">
-                    <img src="images/speech.jpg" alt="商业演讲" class="w-full rounded-lg">
-                </div>
-            </div>
     </section>
 
+    <!-- ============ 技能证书 ============ -->
     <section id="skill" class="section-padding">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">专业技能 & 证书</h2>
-            <div class="mb-6">
-                <img src="images/cert-ai.jpg" alt="AI训练师证书" class="w-full h-52 object-cover rounded-xl shadow-lg">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">专业技能 & 证书</h2>
+                <p class="section-subtitle">持续学习，不断精进</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 reveal reveal-delay-1">
+                <div class="img-zoom"><img src="images/cert-ai.jpg" alt="AI训练师证书" class="w-full h-52 object-cover rounded-lg" style="object-position:center;"></div>
+                <div class="img-zoom"><img src="images/c1-license.jpg" alt="C1机动车驾驶证" class="w-full h-52 object-cover rounded-lg" style="object-position:center;"></div>
             </div>
             <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
-                    <i class="fa-brands fa-html5 text-4xl text-accent mb-3"></i>
-                    <h5 class="font-semibold">HTML / CSS</h5>
-                </div>
-                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
-                    <i class="fa-solid fa-code text-4xl text-accent mb-3"></i>
-                    <h5 class="font-semibold">C语言编程</h5>
-                </div>
-                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
-                    <i class="fa-solid fa-car text-4xl text-accent mb-3"></i>
-                    <h5 class="font-semibold">C1机动车驾驶证</h5>
-                </div>
-                <div class="bg-gray-50 dark:bg-slate-800 p-6 text-center rounded-xl shadow-md card-hover">
-                    <i class="fa-solid fa-certificate text-4xl text-accent mb-3"></i>
-                    <h5 class="font-semibold">阿里高级AI训练师（官方认证）</h5>
-                </div>
+                <div class="skill-badge reveal reveal-delay-1"><i class="fa-brands fa-html5"></i><h5 class="font-bold text-sm">HTML / CSS</h5></div>
+                <div class="skill-badge reveal reveal-delay-2"><i class="fa-solid fa-code"></i><h5 class="font-bold text-sm">C语言编程</h5></div>
+                <div class="skill-badge reveal reveal-delay-3"><i class="fa-solid fa-car"></i><h5 class="font-bold text-sm">C1机动车驾驶证</h5></div>
+                <div class="skill-badge reveal reveal-delay-4"><i class="fa-solid fa-certificate"></i><h5 class="font-bold text-sm">阿里高级AI训练师<br><span class="text-xs" style="color:var(--text-secondary);">（官方认证）</span></h5></div>
             </div>
         </div>
     </section>
 
-    <section id="hobby" class="section-padding bg-gray-50/70 dark:bg-slate-800/40">
-        <div class="max-w-6xl mx-auto fade-scroll">
-            <h2 class="text-3xl font-bold mb-12">兴趣爱好</h2>
-            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-6 card-hover">
-                    <i class="fa-solid fa-microphone-lines text-4xl text-accent mb-3"></i>
-                    <h5 class="text-lg font-medium">说唱</h5>
-                </div>
-                <div class="p-6 card-hover">
-                    <i class="fa-solid fa-basketball text-4xl text-accent mb-3"></i>
-                    <h5 class="text-lg font-medium">篮球</h5>
-                </div>
-                <div class="p-6 card-hover">
-                    <i class="fa-solid fa-rope text-4xl text-accent mb-3"></i>
-                    <h5 class="text-lg font-medium">跳绳</h5>
-                </div>
-                <div class="p-6 card-hover">
-                    <i class="fa-solid fa-guitar text-4xl text-accent mb-3"></i>
-                    <h5 class="text-lg font-medium">吉他</h5>
-                </div>
+    <!-- ============ 兴趣爱好 ============ -->
+    <section id="hobby" class="section-padding" style="background:var(--bg-secondary);">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal">
+                <div class="section-divider"></div>
+                <h2 class="section-title">兴趣爱好</h2>
+                <p class="section-subtitle">热爱生活，多元发展</p>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="hobby-badge reveal reveal-delay-1"><i class="fa-solid fa-microphone-lines"></i><h5 class="text-lg font-bold">说唱</h5></div>
+                <div class="hobby-badge reveal reveal-delay-2"><i class="fa-solid fa-basketball"></i><h5 class="text-lg font-bold">篮球</h5></div>
+                <div class="hobby-badge reveal reveal-delay-3"><i class="fa-solid fa-rope"></i><h5 class="text-lg font-bold">跳绳</h5></div>
+                <div class="hobby-badge reveal reveal-delay-4"><i class="fa-solid fa-guitar"></i><h5 class="text-lg font-bold">吉他</h5></div>
             </div>
         </div>
     </section>
 
+    <!-- ============ 联系方式 ============ -->
     <section id="contact" class="section-padding">
-        <div class="max-w-4xl mx-auto text-center fade-scroll">
-            <h2 class="text-3xl font-bold mb-8">联系方式</h2>
-            <div class="space-y-3 text-textGray dark:text-slate-300 text-lg">
-                <p>姓名：倪毅豪</p>
-                <p>手机号码：19859796883</p>
-                <p>微信号：19859796883</p>
-                <p>QQ号码：3413472573</p>
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal">
+                <div class="section-divider" style="margin:0 auto 1.5rem;"></div>
+                <h2 class="section-title">联系方式</h2>
+                <p class="section-subtitle">期待与你的交流</p>
             </div>
-            <div class="flex justify-center gap-8 text-4xl mt-8">
-                <a href="#" class="text-accent card-hover"><i class="fa-brands fa-qq"></i></a>
-                <a href="#" class="text-accent card-hover"><i class="fa-solid fa-envelope"></i></a>
+            <div class="glass-card-accent p-8 md:p-10 space-y-4 text-lg reveal reveal-delay-1 card-shimmer">
+                <span class="punk-corner punk-corner-tl"></span><span class="punk-corner punk-corner-tr"></span><span class="punk-corner punk-corner-bl"></span><span class="punk-corner punk-corner-br"></span>
+                <div class="flex items-center justify-center gap-3"><i class="fa-solid fa-user accent-text"></i><span class="font-bold">倪毅豪</span></div>
+                <div class="flex items-center justify-center gap-3"><i class="fa-solid fa-phone accent-text"></i><span>19859796883</span></div>
+                <div class="flex items-center justify-center gap-3"><i class="fa-brands fa-weixin accent-text"></i><span>19859796883</span></div>
+                <div class="flex items-center justify-center gap-3"><i class="fa-brands fa-qq accent-text"></i><span>3413472573</span></div>
+            </div>
+            <div class="flex justify-center gap-8 text-4xl mt-8 reveal reveal-delay-2">
+                <a href="#" class="p-3 rounded-full glass-card hover:text-accent transition-all" style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;"><i class="fa-brands fa-qq"></i></a>
+                <a href="#" class="p-3 rounded-full glass-card hover:text-accent transition-all" style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </section>
 
-    <footer class="py-8 text-center text-textGray dark:text-slate-400 border-t dark:border-slate-700">
-        © 2026 倪毅豪 · 个人自我介绍网站 · All Rights Reserved
+    <footer class="py-10 text-center border-t" style="color:var(--text-secondary);border-color:var(--card-border);">
+        <p class="text-sm">© 2026 倪毅豪 · 个人自我介绍网站 · All Rights Reserved</p>
+        <p class="text-xs mt-2 opacity-60">Made with <i class="fa-solid fa-heart text-red-400"></i> & Passion</p>
     </footer>
 
     <script>
-        //汉堡菜单
+        // ===== DOM REFS =====
+        const html = document.documentElement;
+        const body = document.body;
+        const mainNav = document.getElementById('mainNav');
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const backTop = document.getElementById('backTop');
+        const cursorGlow = document.getElementById('cursorGlow');
+        const bgCanvas = document.getElementById('bgCanvas');
+        const ctx = bgCanvas.getContext('2d');
+        const navLinks = document.querySelectorAll('.nav-link[data-section]');
+        const sections = [...document.querySelectorAll('section[id]')];
+
+        // ===== MOBILE MENU =====
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('#mobileMenu a').forEach(a => {
+            a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
         });
 
-        //主题切换
-        const html = document.documentElement;
-        const toggle = document.getElementById('themeToggle');
-        const toggleMobile = document.getElementById('themeToggleMobile');
-        function switchTheme() {
-            html.classList.toggle('dark');
-        }
-        toggle.addEventListener('click', switchTheme);
-        toggleMobile.addEventListener('click', switchTheme);
+        // ===== 3-THEME SYSTEM (CYBER ONLY) =====
+        html.setAttribute('data-theme', 'cyber');
+        body.setAttribute('data-theme', 'cyber');
 
-        //导航滚动毛玻璃
-        const nav = document.getElementById('mainNav');
+        // ===== SCROLL HANDLING =====
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                nav.classList.add('bg-white/85', 'dark:bg-slate-900/85', 'backdrop-blur-md', 'shadow-md');
-            } else {
-                nav.classList.remove('bg-white/85', 'dark:bg-slate-900/85', 'backdrop-blur-md', 'shadow-md');
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    mainNav.classList.toggle('scrolled', scrollY > 60);
+                    backTop.classList.toggle('show', scrollY > 500);
+                    const docH = document.documentElement.scrollHeight - window.innerHeight;
+                    scrollProgress.style.width = docH > 0 ? (scrollY / docH * 100) + '%' : '0%';
+                    updateActiveNav(scrollY);
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
 
-        //滚动渐入动画
-        const fadeItems = document.querySelectorAll('.fade-scroll');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(item => {
-                if (item.isIntersecting) {
-                    item.target.classList.add('active');
-                }
-            })
-        }, { threshold: 0.15 });
-        fadeItems.forEach(el => observer.observe(el));
-
-        //粒子初始化
-        function initParticles() {
-            const dark = html.classList.contains('dark');
-            let particleColor = dark ? "#60a5fa" : "#2563eb";
-            particlesJS("particles-js", {
-                particles: {
-                    number: { value: 45, density: { enable: true, value_area: 800 } },
-                    color: { value: particleColor },
-                    opacity: { value: dark ? 0.35 : 0.25 },
-                    size: { value: 2.5 },
-                    line_linked: { enable: true, color: particleColor, opacity: dark ? 0.18 : 0.12, distance: 120 },
-                    move: { enable: true, speed: 1.2 }
-                },
-                interactivity: {
-                    events: { onhover: { enable: true, mode: "grab" } }
-                }
-            })
+        function updateActiveNav(scrollY) {
+            let current = '';
+            sections.forEach(sec => {
+                if (scrollY >= sec.offsetTop - 200) current = sec.id;
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.dataset.section === current);
+            });
         }
-        initParticles();
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        //切换主题重载粒子
-        toggle.addEventListener('click', () => {
-            document.getElementById('particles-js').innerHTML = "";
-            initParticles();
+        // ===== REVEAL ANIMATION =====
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealEls.forEach(el => revealObserver.observe(el));
+
+        // ===== 3D CARD TILT =====
+        document.querySelectorAll('.glass-card, .glass-card-accent').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / centerY * -6;
+                const rotateY = (x - centerX) / centerX * 6;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.01)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
         });
-        toggleMobile.addEventListener('click', () => {
-            document.getElementById('particles-js').innerHTML = "";
-            initParticles();
-        });
-        //回到顶部
-const backTop = document.querySelector('#backTop');
-window.addEventListener('scroll',()=>{
-  if(window.scrollY>400){
-    backTop.classList.add('show');
-  }else{
-    backTop.classList.remove('show');
-  }
-})
-backTop.onclick=()=>{
-    window.scrollTo({top:0,behavior:'smooth'});
-}
+
+        // ===== CURSOR GLOW =====
+        let cursorX = -500, cursorY = -500;
+        let currentX = -500, currentY = -500;
+        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
+        document.addEventListener('mouseleave', () => { cursorX = -500; cursorY = -500; });
+        function animateCursor() {
+            currentX += (cursorX - currentX) * 0.07;
+            currentY += (cursorY - currentY) * 0.07;
+            cursorGlow.style.left = currentX + 'px';
+            cursorGlow.style.top = currentY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // ===== TECH BACKGROUND CANVAS =====
+        let w, h, mouseX = -1000, mouseY = -1000;
+        const nodes = [], dataPackets = [];
+        const NODE_COUNT = 55, PACKET_COUNT = 12;
+
+        class TechNode {
+            constructor() { this.reset(); this.y = Math.random() * h; }
+            reset() {
+                this.x = Math.random() * w; this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * 0.35; this.vy = (Math.random() - 0.5) * 0.35;
+                this.radius = Math.random() * 2.2 + 0.6;
+                this.pulse = Math.random() * Math.PI * 2; this.pulseSpeed = 0.02 + Math.random() * 0.03;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy; this.pulse += this.pulseSpeed;
+                const dx = this.x - mouseX, dy = this.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 200) { const force = (200 - dist) / 200 * 0.03; this.vx += dx * force; this.vy += dy * force; }
+                this.vx *= 0.998; this.vy *= 0.998;
+                if (this.x < -30) this.x = w + 30; if (this.x > w + 30) this.x = -30;
+                if (this.y < -30) this.y = h + 30; if (this.y > h + 30) this.y = -30;
+            }
+            draw(ctx, color) {
+                const pulseR = this.radius + Math.sin(this.pulse) * 0.8;
+                ctx.beginPath(); ctx.arc(this.x, this.y, pulseR, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, pulseR + 3, 0, Math.PI * 2);
+                ctx.fillStyle = color.replace('0.8', '0.12').replace('0.7', '0.08'); ctx.fill();
+            }
+        }
+
+        class DataPacket {
+            constructor() { this.reset(); this.progress = Math.random(); }
+            reset() {
+                const a = Math.floor(Math.random() * nodes.length);
+                let b = Math.floor(Math.random() * nodes.length);
+                while (b === a) b = Math.floor(Math.random() * nodes.length);
+                this.from = a; this.to = b; this.progress = 0; this.speed = 0.003 + Math.random() * 0.006;
+            }
+            update() { this.progress += this.speed; if (this.progress >= 1) this.reset(); }
+            draw(ctx, color) {
+                const a = nodes[this.from], b = nodes[this.to];
+                if (!a || !b) return;
+                const x = a.x + (b.x - a.x) * this.progress, y = a.y + (b.y - a.y) * this.progress;
+                const trailLen = 0.12, ts = this.progress - trailLen;
+                const tx = a.x + (b.x - a.x) * Math.max(0, ts), ty = a.y + (b.y - a.y) * Math.max(0, ts);
+                const grad = ctx.createLinearGradient(tx, ty, x, y);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, color);
+                ctx.strokeStyle = grad; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(x, y); ctx.stroke();
+                ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+            }
+        }
+
+        function initNodes() {
+            nodes.length = 0; dataPackets.length = 0;
+            w = window.innerWidth; h = window.innerHeight;
+            bgCanvas.width = w; bgCanvas.height = h;
+            for (let i = 0; i < NODE_COUNT; i++) nodes.push(new TechNode());
+            for (let i = 0; i < PACKET_COUNT; i++) dataPackets.push(new DataPacket());
+        }
+
+        function drawTechConnections() {
+            const theme = html.getAttribute('data-theme');
+            const lineColor = theme === 'cyber' ? 'rgba(0,240,255,0.08)' : theme === 'dark' ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.06)';
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = lineColor; ctx.globalAlpha = (1 - dist / 150) * 0.35;
+                        ctx.lineWidth = 0.5; ctx.stroke(); ctx.globalAlpha = 1;
+                    }
+                }
+            }
+        }
+
+        function animateTech() {
+            ctx.clearRect(0, 0, w, h);
+            const theme = html.getAttribute('data-theme');
+            const nodeColor = theme === 'cyber' ? 'rgba(0,240,255,0.7)' : theme === 'dark' ? 'rgba(148,163,184,0.8)' : 'rgba(59,130,246,0.7)';
+            const packetColor = theme === 'cyber' ? 'rgba(179,71,234,0.9)' : theme === 'dark' ? 'rgba(6,182,212,0.9)' : 'rgba(6,182,212,0.75)';
+            nodes.forEach(n => { n.update(); n.draw(ctx, nodeColor); });
+            drawTechConnections();
+            dataPackets.forEach(p => { p.update(); p.draw(ctx, packetColor); });
+            requestAnimationFrame(animateTech);
+        }
+
+        initNodes(); animateTech();
+        window.addEventListener('resize', initNodes);
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+        document.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
     </script>
 </body>
-</html> 
+</html>

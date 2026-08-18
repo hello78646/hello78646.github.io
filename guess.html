@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>猜数字游戏 | Guess Number - C Console</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+:root{--green:#0f0;--green-dim:#0a0;--red:#f44;--yellow:#ff0;--cyan:#0ff;--white:#ccc;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#0a0a0a;display:flex;align-items:center;justify-content:center;min-height:100vh;
+  font-family:'JetBrains Mono','Fira Code','Courier New',monospace;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);
+}
+.terminal{
+  width:680px;max-width:95vw;height:520px;max-height:85vh;
+  background:#0c0c0c;border:2px solid #333;border-radius:8px;
+  box-shadow:0 0 30px rgba(0,255,0,0.08),inset 0 0 60px rgba(0,0,0,0.5);
+  display:flex;flex-direction:column;overflow:hidden;
+  position:relative;
+}
+.terminal::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,0,0.015) 2px,rgba(0,255,0,0.015) 4px);
+  pointer-events:none;z-index:10;
+}
+.titlebar{
+  background:#1a1a1a;padding:8px 14px;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid #333;flex-shrink:0;
+}
+.titlebar .dot{width:11px;height:11px;border-radius:50%;}
+.titlebar .dot.red{background:#ff5f56;}
+.titlebar .dot.yellow{background:#ffbd2e;}
+.titlebar .dot.green{background:#27c93f;}
+.titlebar .title{
+  flex:1;text-align:center;color:#888;font-size:0.75rem;letter-spacing:1px;
+}
+.screen{
+  flex:1;padding:16px 20px;overflow-y:auto;color:var(--green);font-size:0.85rem;
+  line-height:1.7;position:relative;z-index:5;
+}
+.screen::-webkit-scrollbar{width:4px;}
+.screen::-webkit-scrollbar-track{background:transparent;}
+.screen::-webkit-scrollbar-thumb{background:#1a3a1a;border-radius:2px;}
+.line{margin:0;white-space:pre-wrap;word-break:break-all;}
+.line.prompt{color:var(--cyan);}
+.line.output{color:var(--green);}
+.line.error{color:var(--red);}
+.line.success{color:var(--yellow);}
+.line.dim{color:#0a0;}
+.line .cursor{display:inline-block;width:8px;height:15px;background:var(--green);animation:blink 0.8s step-end infinite;vertical-align:middle;margin-left:2px;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.input-line{
+  display:flex;align-items:center;padding:4px 20px;border-top:1px solid #1a1a1a;
+  background:#0c0c0c;flex-shrink:0;z-index:5;
+}
+.input-line .prompt-text{color:var(--cyan);font-size:0.85rem;white-space:nowrap;}
+.input-line input{
+  flex:1;background:transparent;border:none;outline:none;color:var(--green);
+  font-family:inherit;font-size:0.85rem;padding:4px 0;caret-color:var(--green);
+}
+.input-line input::placeholder{color:#1a3a1a;}
+/* Scanline overlay */
+.scanlines{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.03) 50%);
+  background-size:100% 4px;pointer-events:none;z-index:9;
+}
+/* Glow effect */
+.terminal::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  border-radius:8px;box-shadow:inset 0 0 80px rgba(0,255,0,0.03);
+  pointer-events:none;z-index:11;
+}
+/* CRT flicker */
+@keyframes flicker{0%{opacity:0.97;}5%{opacity:1;}10%{opacity:0.98;}15%{opacity:1;}50%{opacity:1;}80%{opacity:0.99;}100%{opacity:1;}}
+.terminal{animation:flicker 8s infinite;}
+</style>
+</head>
+<body>
+<div class="terminal">
+  <div class="titlebar">
+    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+    <div class="title">guess_number.c — 倪毅豪 — Terminal</div>
+  </div>
+  <div class="screen" id="screen"></div>
+  <div class="input-line" id="inputLine">
+    <span class="prompt-text" id="prompt">guest@niyihao:~$ </span>
+    <input type="text" id="userInput" placeholder="输入数字..." autofocus autocomplete="off">
+  </div>
+  <div class="scanlines"></div>
+</div>
+<script>
+const screen=document.getElementById('screen'),userInput=document.getElementById('userInput'),prompt=document.getElementById('prompt'),inputLine=document.getElementById('inputLine');
+let target=0,chances=0,maxChances=5,gameActive=false,awaitingMenu=true,awaitingContinue=false;
+
+function addLine(text,cls='output'){
+  const p=document.createElement('p');p.className='line '+cls;p.textContent=text;screen.appendChild(p);
+  screen.scrollTop=screen.scrollHeight;
+}
+function addHTML(html){
+  const p=document.createElement('p');p.className='line';p.innerHTML=html;screen.appendChild(p);
+  screen.scrollTop=screen.scrollHeight;
+}
+function typeLine(text,cls='output',delay=0){
+  setTimeout(()=>{
+    const p=document.createElement('p');p.className='line '+cls;
+    let i=0;const interval=setInterval(()=>{p.textContent+=text[i];i++;screen.scrollTop=screen.scrollHeight;if(i>=text.length){clearInterval(interval);}},8);
+    screen.appendChild(p);
+  },delay);
+}
+
+function startScreen(){
+  screen.innerHTML='';
+  addLine('╔══════════════════════════════════════════════╗','dim');
+  addLine('║                                              ║','dim');
+  addLine('║       🎯  Guess The Number  ·  猜数字游戏      ║','success');
+  addLine('║                                              ║','dim');
+  addLine('║       作者: 倪毅豪 (Niyihao)                   ║','dim');
+  addLine('║       语言: C Language Style                   ║','dim');
+  addLine('║       版本: v2.0  ·  Terminal Edition          ║','dim');
+  addLine('║                                              ║','dim');
+  addLine('╚══════════════════════════════════════════════╝','dim');
+  addLine('');
+  addLine('────────────────────────────────────────────────','dim');
+  addLine('  📋 游戏规则:','cyan');
+  addLine('  · 系统随机生成一个 0 ~ 100 之间的整数','output');
+  addLine('  · 你一共有 '+maxChances+' 次猜测机会','output');
+  addLine('  · 每次猜测后系统会提示"大了"或"小了"','output');
+  addLine('  · 猜中即获胜，用尽机会则失败','output');
+  addLine('────────────────────────────────────────────────','dim');
+  addLine('');
+  addLine('  请选择:','cyan');
+  addLine('  [1] 开始游戏 (Start Game)','output');
+  addLine('  [0] 退出程序 (Exit)','output');
+  addLine('');
+  addLine('  guest@niyihao:~$ _','prompt');
+  awaitingMenu=true;awaitingContinue=false;gameActive=false;
+  userInput.value='';userInput.focus();
+}
+
+function startGame(){
+  screen.innerHTML='';
+  target=Math.floor(Math.random()*101);
+  chances=maxChances;
+  gameActive=true;awaitingMenu=false;awaitingContinue=false;
+  typeLine('╔══════════════════════════════════════════════╗','dim');
+  typeLine('║         🎯 猜数字游戏正式开始！                ║','success',50);
+  typeLine('║    我想了一个 0~100 之间的整数，你猜猜看？       ║','dim',100);
+  typeLine('╚══════════════════════════════════════════════╝','dim',150);
+  typeLine('','',200);
+  typeLine('────────────────────────────────────────────────','dim',250);
+  typeLine('  💡 提示: 输入数字后按回车提交','cyan',300);
+  typeLine('  ❤️ 剩余机会: '+chances+' 次','output',350);
+  typeLine('────────────────────────────────────────────────','dim',400);
+  typeLine('','',450);
+  addLine('  guest@niyihao:~$ _','prompt');
+  userInput.value='';userInput.focus();
+  console.log('Answer: '+target); // debug
+}
+
+function handleGuess(val){
+  if(!gameActive)return;
+  const num=parseInt(val);
+  if(isNaN(num)||num<0||num>100){
+    addLine('  ⚠ 请输入 0~100 之间的整数！','error');addLine('');addLine('  guest@niyihao:~$ _','prompt');
+    return;
+  }
+  chances--;
+  if(num===target){
+    addLine('  🎉 '+num+' — 恭喜你猜中了！','success');
+    addLine('','');
+    addLine('  ╔══════════════════════════════════════════════╗','dim');
+    addLine('  ║       🏆 恭喜你赢得了比赛！                   ║','success');
+    addLine('  ║      答案就是: '+String(target).padStart(3,' ')+'                            ║','success');
+    addLine('  ║      剩余机会: '+chances+' 次                          ║','dim');
+    addLine('  ╚══════════════════════════════════════════════╝','dim');
+    addLine('');addLine('');addLine('');addLine('');
+    addLine('  ──────────────────────────────────────────────','dim');
+    addLine('  [1] 再来一局 (Play Again)','output');
+    addLine('  [0] 退出程序 (Exit)','output');
+    addLine('  guest@niyihao:~$ _','prompt');
+    gameActive=false;awaitingContinue=true;
+  }else{
+    const hint=num>target?'📈 大了，往下猜！':'📉 小了，往上猜！';
+    addLine('  ❌ '+num+' — '+hint+'  剩余 '+chances+' 次机会','error');
+    if(chances<=0){
+      addLine('','');
+      addLine('  ╔══════════════════════════════════════════════╗','dim');
+      addLine('  ║       💀 游戏结束，你没有猜中！                ║','error');
+      addLine('  ║      正确答案是: '+String(target).padStart(3,' ')+'                          ║','error');
+      addLine('  ╚══════════════════════════════════════════════╝','dim');
+      addLine('');addLine('');addLine('');addLine('');
+      addLine('  ──────────────────────────────────────────────','dim');
+      addLine('  [1] 再来一局 (Play Again)','output');
+      addLine('  [0] 退出程序 (Exit)','output');
+      addLine('  guest@niyihao:~$ _','prompt');
+      gameActive=false;awaitingContinue=true;
+    }else{
+      addLine('');addLine('  guest@niyihao:~$ _','prompt');
+    }
+  }
+}
+
+function handleMenu(val){
+  if(val==='1'){
+    startGame();
+  }else if(val==='0'){
+    screen.innerHTML='';
+    addLine('  Bye! 感谢游玩 倪毅豪 的猜数字游戏 👋','success');
+    addLine('','');addLine('  guest@niyihao:~$ _','prompt');
+    inputLine.style.display='none';
+  }else{
+    addLine('  ⚠ 请输入 1 或 0','error');
+    addLine('');addLine('  guest@niyihao:~$ _','prompt');
+  }
+}
+
+userInput.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const val=userInput.value.trim();userInput.value='';
+    if(val==='')return;
+    if(awaitingMenu){handleMenu(val);}
+    else if(awaitingContinue){handleMenu(val);}
+    else if(gameActive){handleGuess(val);}
+  }
+});
+
+// Click to focus input
+document.querySelector('.terminal').addEventListener('click',()=>userInput.focus());
+
+startScreen();
+</script>
+</body>
+</html>
