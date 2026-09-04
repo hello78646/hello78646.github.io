@@ -33,17 +33,352 @@ html { scroll-behavior: smooth; }
 body {
   font-family: 'PingFang SC','Microsoft YaHei',system-ui,sans-serif;
   background-color: #1a1f2e;
-  background-image: url('images/bg-anime.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   color: var(--ink);
   overflow-x: hidden; cursor: default;
 }
-body::before {
-  content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(180deg, rgba(26,31,46,0.75) 0%, rgba(26,31,46,0.55) 50%, rgba(26,31,46,0.85) 100%);
-  z-index: -1; pointer-events: none;
+.bg-layer {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('images/bg-anime.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -7; pointer-events: none;
+  animation: bgKenBurns 12s ease-in-out infinite alternate;
+  will-change: transform;
+  filter: saturate(1.15) contrast(1.08);
+}
+/* 头发飘动效果 - 多层波浪扭曲 */
+.hair-distortion {
+  position: fixed; top: 0; left: 0; width: 100%; height: 55%;
+  z-index: -6; pointer-events: none;
+  background-image: url('images/bg-anime.jpg');
+  background-size: cover;
+  background-position: center top;
+  filter: saturate(1.15) contrast(1.08);
+}
+.hair-distortion.layer1 {
+  /* 主层 - 大面积飘动 */
+  mask-image:
+    radial-gradient(ellipse 55% 65% at 50% 15%, black 5%, transparent 60%),
+    linear-gradient(180deg, black 0%, black 35%, transparent 65%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 55% 65% at 50% 15%, black 5%, transparent 60%),
+    linear-gradient(180deg, black 0%, black 35%, transparent 65%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  animation: hairWave1 4s ease-in-out infinite alternate;
+  transform-origin: center 80%;
+}
+.hair-distortion.layer2 {
+  /* 中层 - 中幅度飘动，错位延迟 */
+  mask-image:
+    radial-gradient(ellipse 45% 55% at 50% 12%, black 10%, transparent 65%),
+    linear-gradient(180deg, black 0%, black 40%, transparent 70%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 45% 55% at 50% 12%, black 10%, transparent 65%),
+    linear-gradient(180deg, black 0%, black 40%, transparent 70%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  animation: hairWave2 5.5s ease-in-out infinite alternate;
+  animation-delay: -1.5s;
+  transform-origin: center 75%;
+  opacity: 0.9;
+}
+.hair-distortion.layer3 {
+  /* 前层 - 细碎发丝快速飘动 */
+  mask-image:
+    radial-gradient(ellipse 35% 45% at 50% 8%, black 15%, transparent 70%),
+    linear-gradient(180deg, black 0%, black 30%, transparent 60%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 35% 45% at 50% 8%, black 15%, transparent 70%),
+    linear-gradient(180deg, black 0%, black 30%, transparent 60%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  animation: hairWave3 3s ease-in-out infinite alternate;
+  animation-delay: -0.8s;
+  transform-origin: center 70%;
+  opacity: 0.85;
+}
+@keyframes hairWave1 {
+  0%   { transform: translateX(-8px) skewX(-1.2deg) scaleY(1.02); }
+  30%  { transform: translateX(5px) skewX(0.6deg) scaleY(1); }
+  60%  { transform: translateX(-3px) skewX(-0.4deg) scaleY(1.01); }
+  100% { transform: translateX(8px) skewX(1.5deg) scaleY(0.99); }
+}
+@keyframes hairWave2 {
+  0%   { transform: translateX(10px) skewX(1deg) scaleY(0.99); }
+  40%  { transform: translateX(-6px) skewX(-0.8deg) scaleY(1.015); }
+  70%  { transform: translateX(4px) skewX(0.5deg) scaleY(1); }
+  100% { transform: translateX(-10px) skewX(-1.2deg) scaleY(1.01); }
+}
+@keyframes hairWave3 {
+  0%   { transform: translateX(0) translateY(0) scaleY(1); }
+  25%  { transform: translateX(12px) translateY(-3px) scaleY(1.02); }
+  50%  { transform: translateX(-5px) translateY(2px) scaleY(0.98); }
+  75%  { transform: translateX(8px) translateY(-1px) scaleY(1.01); }
+  100% { transform: translateX(-8px) translateY(3px) scaleY(0.99); }
+}
+@keyframes bgKenBurns {
+  0%   { transform: scale(1.08) translate(1%, 0.5%); }
+  50%  { transform: scale(1.22) translate(-2.5%, -1.5%); }
+  100% { transform: scale(1.15) translate(1.5%, -0.8%); }
+}
+.bg-cyber-tint {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -5; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 85%, rgba(0,229,168,0.22), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 15%, rgba(236,72,153,0.2), transparent 60%);
+  mix-blend-mode: screen;
+  animation: tintPulse 6s ease-in-out infinite alternate;
+}
+@keyframes tintPulse {
+  0%   { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+.bg-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(10,14,26,0.72) 0%, rgba(15,20,35,0.5) 40%, rgba(10,14,26,0.82) 100%);
+  z-index: -2; pointer-events: none;
+  animation: bgBreath 5s ease-in-out infinite;
+}
+@keyframes bgBreath {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
+}
+.scanlines {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 100; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0) 4px
+  );
+  opacity: 0.4;
+  animation: scanlineDrift 8s linear infinite;
+}
+@keyframes scanlineDrift {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+.light-sweep {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 99; pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(0,229,168,0.07) 42%,
+    rgba(236,72,153,0.09) 50%,
+    rgba(0,229,168,0.07) 58%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: lightSweep 7s ease-in-out infinite;
+}
+@keyframes lightSweep {
+  0% { background-position: 150% 0; opacity: 0; }
+  10% { opacity: 1; }
+  50% { background-position: -50% 0; opacity: 0.6; }
+  60% { opacity: 0; }
+  100% { background-position: -50% 0; opacity: 0; }
+}
+.grain {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 98; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.08;
+  animation: grainShift 0.5s steps(4) infinite;
+}
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-5%, 3%); }
+  50% { transform: translate(3%, -4%); }
+  75% { transform: translate(-2%, 5%); }
+  100% { transform: translate(0, 0); }
+}
+/* 3D 立体玻璃镜面碎片 */
+.pixel-shards {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none; overflow: hidden;
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+}
+.glass-shard {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  animation: shard3dFloat ease-in-out infinite;
+}
+/* 碎片正面 - 反射图像 */
+.glass-shard .shard-face {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('images/bg-anime.jpg');
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(var(--thickness, 4px));
+}
+/* 碎片背面 */
+.glass-shard .shard-back {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(60,80,100,0.7),
+    rgba(30,45,65,0.85)
+  );
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(calc(var(--thickness, 4px) * -1)) rotateY(180deg);
+}
+/* 玻璃高光层 */
+.glass-shard .shard-face::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(
+    130deg,
+    rgba(255,255,255,0.5) 0%,
+    rgba(255,255,255,0.2) 10%,
+    rgba(255,255,255,0.02) 25%,
+    rgba(255,255,255,0) 45%,
+    rgba(255,255,255,0) 60%,
+    rgba(255,255,255,0.08) 78%,
+    rgba(255,255,255,0.25) 92%,
+    rgba(255,255,255,0.4) 100%
+  );
+  pointer-events: none;
+}
+/* 玻璃边缘包边 */
+.glass-shard .shard-face::after {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.65),
+    inset 1.5px 1.5px 0 rgba(255,255,255,0.4),
+    inset -1.5px -1.5px 0 rgba(70,85,110,0.6);
+  pointer-events: none;
+}
+/* 碎片侧面 - 玻璃厚度 (右、左、底、顶 四个面) */
+.glass-shard .shard-side {
+  position: absolute;
+  background: linear-gradient(180deg,
+    rgba(200,220,240,0.7),
+    rgba(120,145,175,0.5),
+    rgba(70,90,120,0.6)
+  );
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.glass-shard .shard-side.side-right {
+  width: var(--thickness, 4px);
+  height: 100%;
+  right: 0;
+  top: 0;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  background: linear-gradient(90deg,
+    rgba(200,220,240,0.7),
+    rgba(100,125,155,0.55)
+  );
+}
+.glass-shard .shard-side.side-left {
+  width: var(--thickness, 4px);
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform-origin: right center;
+  transform: rotateY(-90deg);
+  background: linear-gradient(270deg,
+    rgba(180,200,220,0.65),
+    rgba(90,115,145,0.5)
+  );
+}
+.glass-shard .shard-side.side-bottom {
+  width: 100%;
+  height: var(--thickness, 4px);
+  bottom: 0;
+  left: 0;
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+  background: linear-gradient(180deg,
+    rgba(160,185,210,0.6),
+    rgba(60,80,110,0.55)
+  );
+}
+.glass-shard .shard-side.side-top {
+  width: 100%;
+  height: var(--thickness, 4px);
+  top: 0;
+  left: 0;
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+  background: linear-gradient(0deg,
+    rgba(220,240,255,0.75),
+    rgba(140,165,195,0.5)
+  );
+}
+/* 5种碎片形状 */
+.glass-shard.shape-1 .shard-face,
+.glass-shard.shape-1 .shard-back,
+.glass-shard.shape-1 .shard-side {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 85%);
+}
+.glass-shard.shape-2 .shard-face,
+.glass-shard.shape-2 .shard-back,
+.glass-shard.shape-2 .shard-side {
+  clip-path: polygon(25% 0%, 100% 10%, 90% 100%, 0% 80%);
+}
+.glass-shard.shape-3 .shard-face,
+.glass-shard.shape-3 .shard-back,
+.glass-shard.shape-3 .shard-side {
+  clip-path: polygon(50% 0%, 100% 45%, 50% 100%, 0% 55%);
+}
+.glass-shard.shape-4 .shard-face,
+.glass-shard.shape-4 .shard-back,
+.glass-shard.shape-4 .shard-side {
+  clip-path: polygon(15% 5%, 65% 0%, 100% 35%, 85% 100%, 25% 95%, 0% 55%);
+}
+.glass-shard.shape-5 .shard-face,
+.glass-shard.shape-5 .shard-back,
+.glass-shard.shape-5 .shard-side {
+  clip-path: polygon(0% 25%, 50% 0%, 100% 35%, 95% 100%, 35% 90%);
+}
+
+@keyframes shard3dFloat {
+  0% {
+    transform:
+      translateY(var(--start-y, 10vh))
+      translateX(0)
+      rotateX(var(--rx-start, 20deg))
+      rotateY(var(--ry-start, -30deg))
+      rotateZ(var(--rz-start, 0deg))
+      scale(0.5);
+    opacity: 0;
+  }
+  10% { opacity: 0.92; }
+  50% {
+    transform:
+      translateY(calc(-50vh + var(--mid-offset, 0px)))
+      translateX(calc(var(--drift, 0px) * 0.5))
+      rotateX(calc(var(--rx-start, 20deg) * -0.5))
+      rotateY(calc(var(--ry-end, 30deg) * 0.5))
+      rotateZ(calc(var(--rz-mid, 45deg)))
+      scale(1);
+    opacity: 0.88;
+  }
+  88% { opacity: 0.2; }
+  100% {
+    transform:
+      translateY(-120vh)
+      translateX(var(--drift, 0px))
+      rotateX(var(--rx-end, -40deg))
+      rotateY(var(--ry-end, 30deg))
+      rotateZ(var(--rz-end, 180deg))
+      scale(0.4);
+    opacity: 0;
+  }
 }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -213,7 +548,7 @@ body::before {
 #backTop:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 0 25px var(--accent), 0 0 50px var(--accent2); }
 
 .cyber-grid {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none;
   background-image:
     radial-gradient(circle 1px at 50% 50%, rgba(0,229,168,0.06) 1px, transparent 1px);
   background-size: 28px 28px;
@@ -226,17 +561,17 @@ body::before {
 }
 .orb-glow:nth-of-type(1) {
   width: 480px; height: 480px; top: 8%; left: 5%;
-  background: radial-gradient(circle, rgba(0,229,168,0.28), transparent 70%);
+  background: radial-gradient(circle, rgba(0,229,168,0.32), transparent 70%);
   animation: orbFloat1 12s ease-in-out infinite;
 }
 .orb-glow:nth-of-type(2) {
-  width: 400px; height: 400px; top: 45%; right: 5%;
-  background: radial-gradient(circle, rgba(124,92,255,0.22), transparent 70%);
+  width: 420px; height: 420px; top: 45%; right: 5%;
+  background: radial-gradient(circle, rgba(236,72,153,0.28), transparent 70%);
   animation: orbFloat2 14s ease-in-out infinite;
 }
 .orb-glow:nth-of-type(3) {
   width: 320px; height: 320px; top: 75%; left: 25%;
-  background: radial-gradient(circle, rgba(255,138,80,0.14), transparent 70%);
+  background: radial-gradient(circle, rgba(255,180,50,0.18), transparent 70%);
   animation: orbFloat1 18s ease-in-out infinite;
 }
 @keyframes orbFloat1 {
@@ -323,10 +658,20 @@ body::before {
   <source src="audios/die-for-you.mp3" type="audio/mpeg">
 </audio>
 
+<div class="bg-layer"></div>
+<div class="hair-distortion layer1"></div>
+<div class="hair-distortion layer2"></div>
+<div class="hair-distortion layer3"></div>
+<div class="bg-cyber-tint"></div>
+<div class="bg-overlay"></div>
+<div class="pixel-shards" id="pixelShards"></div>
 <div class="cyber-grid"></div>
 <div class="orb-glow"></div>
 <div class="orb-glow"></div>
 <div class="orb-glow"></div>
+<div class="grain"></div>
+<div class="light-sweep"></div>
+<div class="scanlines"></div>
 <div id="scrollProgress"></div>
 <div id="backTop"><i class="fa-solid fa-arrow-up"></i></div>
 
@@ -698,6 +1043,130 @@ bgAudio.addEventListener('ended', function() {
   bgAudio.currentTime = 0;
   bgAudio.play();
 });
+
+/* 3D 立体玻璃镜面碎片 - 反射人物不同部位 */
+(function initPixelShards() {
+  var container = document.getElementById('pixelShards');
+  if (!container) return;
+  var count = 55;
+
+  // 人物各部位坐标 (背景图百分比)
+  var parts = [
+    { x: 50, y: 15 }, // 头顶
+    { x: 50, y: 22 }, // 脸部
+    { x: 42, y: 20 }, // 左发
+    { x: 58, y: 20 }, // 右发
+    { x: 50, y: 32 }, // 脖子
+    { x: 38, y: 40 }, // 左肩
+    { x: 62, y: 40 }, // 右肩
+    { x: 50, y: 50 }, // 胸口
+    { x: 30, y: 55 }, // 左臂
+    { x: 70, y: 55 }, // 右臂
+    { x: 50, y: 65 }, // 腰腹
+    { x: 45, y: 25 }, // 左脸
+    { x: 55, y: 25 }, // 右脸
+    { x: 50, y: 8 },  // 发顶
+    { x: 35, y: 30 }, // 左鬓
+    { x: 65, y: 30 }, // 右鬓
+  ];
+
+  for (var i = 0; i < count; i++) {
+    var shard = document.createElement('div');
+    shard.className = 'glass-shard shape-' + ((i % 5) + 1);
+
+    // 字体大小的镜片: 20-38px
+    var w = Math.random() * 18 + 20;
+    var h = w * (0.75 + Math.random() * 1.0);
+    var thickness = Math.max(3, w * 0.12); // 厚度约为宽度的12%
+
+    // 分布: 45% 左侧, 45% 右侧, 10% 中间（极少量）
+    var left;
+    var r = Math.random();
+    if (r < 0.45) {
+      left = Math.random() * 42;       // 左 0-42%
+    } else if (r < 0.9) {
+      left = 58 + Math.random() * 42;   // 右 58-100%
+    } else {
+      left = 42 + Math.random() * 16;   // 中间 42-58% 很少
+    }
+
+    // 随机选一个人物部位作为反射焦点
+    var part = parts[Math.floor(Math.random() * parts.length)];
+    var jitterX = (Math.random() - 0.5) * 6;
+    var jitterY = (Math.random() - 0.5) * 6;
+    var bgX = part.x + jitterX;
+    var bgY = part.y + jitterY;
+    var bgScale = 350 + Math.random() * 350; // 350-700% 局部放大
+
+    // 3D 旋转参数 - 更大幅度的翻转
+    var rxS = Math.random() * 60 - 30;
+    var ryS = Math.random() * 80 - 40;
+    var rzS = Math.random() * 80 - 40;
+    var rxE = Math.random() * 90 - 45;
+    var ryE = Math.random() * 110 - 55;
+    var rzE = Math.random() * 240 - 120;
+    var rzM = (rzS + rzE) / 2 + (Math.random() - 0.5) * 60;
+
+    // 运动参数
+    var dur = Math.random() * 10 + 15;
+    var delay = Math.random() * 25;
+    var drift = (Math.random() - 0.5) * 300;
+    var midOff = (Math.random() - 0.5) * 100;
+    var startY = Math.random() * 15 + 8;
+
+    shard.style.width = w + 'px';
+    shard.style.height = h + 'px';
+    shard.style.left = left + '%';
+    shard.style.bottom = '-80px';
+    shard.style.animationDuration = dur + 's';
+    shard.style.animationDelay = -delay + 's';
+    shard.style.setProperty('--thickness', thickness + 'px');
+    shard.style.setProperty('--drift', drift + 'px');
+    shard.style.setProperty('--mid-offset', midOff + 'px');
+    shard.style.setProperty('--start-y', startY + 'vh');
+    shard.style.setProperty('--rx-start', rxS + 'deg');
+    shard.style.setProperty('--ry-start', ryS + 'deg');
+    shard.style.setProperty('--rz-start', rzS + 'deg');
+    shard.style.setProperty('--rx-end', rxE + 'deg');
+    shard.style.setProperty('--ry-end', ryE + 'deg');
+    shard.style.setProperty('--rz-mid', rzM + 'deg');
+    shard.style.setProperty('--rz-end', rzE + 'deg');
+
+    // 正面 - 反射图像
+    var face = document.createElement('div');
+    face.className = 'shard-face';
+    face.style.backgroundSize = bgScale + '% auto';
+    face.style.backgroundPosition = bgX + '% ' + bgY + '%';
+    shard.appendChild(face);
+
+    // 背面
+    var back = document.createElement('div');
+    back.className = 'shard-back';
+    shard.appendChild(back);
+
+    // 右侧面
+    var sideR = document.createElement('div');
+    sideR.className = 'shard-side side-right';
+    shard.appendChild(sideR);
+
+    // 左侧面
+    var sideL = document.createElement('div');
+    sideL.className = 'shard-side side-left';
+    shard.appendChild(sideL);
+
+    // 底面
+    var sideB = document.createElement('div');
+    sideB.className = 'shard-side side-bottom';
+    shard.appendChild(sideB);
+
+    // 顶面
+    var sideT = document.createElement('div');
+    sideT.className = 'shard-side side-top';
+    shard.appendChild(sideT);
+
+    container.appendChild(shard);
+  }
+})();
 </script>
 </body>
 </html>
